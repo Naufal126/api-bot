@@ -1,0 +1,104 @@
+ <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ouo Link Bypasser</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f0f2f5; 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; margin: 0; padding: 20px;
+        }
+        .card { 
+            background: white; padding: 30px; border-radius: 12px; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1); width: 100%; max-width: 450px; 
+            text-align: center; 
+        }
+        h2 { margin-top: 0; color: #1a1a1a; }
+        p { color: #666; margin-bottom: 20px; font-size: 14px; }
+        input { 
+            width: 100%; padding: 12px 15px; margin-bottom: 15px; 
+            border: 1px solid #ccc; border-radius: 8px; font-size: 16px;
+            outline: none; transition: border-color 0.3s;
+        }
+        input:focus { border-color: #007bff; }
+        button { 
+            background: #007bff; color: white; border: none; 
+            padding: 12px 20px; border-radius: 8px; cursor: pointer; 
+            width: 100%; font-size: 16px; font-weight: bold; transition: background 0.3s;
+        }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #cccccc; cursor: not-allowed; }
+        #result { margin-top: 20px; font-size: 15px; text-align: left; padding: 15px; border-radius: 8px; display: none; word-break: break-all; }
+        .success-box { background-color: #e8f5e9; border: 1px solid #c8e6c9; color: #2e7d32; }
+        .error-box { background-color: #ffebee; border: 1px solid #ffcdd2; color: #c62828; }
+        .loading-box { background-color: #e3f2fd; border: 1px solid #bbdefb; color: #1565c0; text-align: center; }
+        a { color: #1565c0; text-decoration: none; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>🚀 Ouo Bypasser</h2>
+        <p>Masukkan link <b>ouo.io</b> atau <b>ouo.press</b> di bawah ini untuk melewati captcha secara otomatis.</p>
+        
+        <input type="text" id="urlInput" placeholder="Contoh: https://ouo.io/xxxxx">
+        <button id="bypassBtn" onclick="bypassLink()">Bypass Sekarang</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function bypassLink() {
+            const urlInput = document.getElementById('urlInput').value.trim();
+            const resultDiv = document.getElementById('result');
+            const btn = document.getElementById('bypassBtn');
+            
+            if (!urlInput) {
+                showResult('Masukkan link terlebih dahulu!', 'error-box');
+                return;
+            }
+
+            // UBAH BAGIAN INI: Masukkan link HTTPS VPS kamu atau domain API kamu di sini
+            const apiUrl = `https://api.domainmu.com/api/bypass?url=${encodeURIComponent(urlInput)}`;
+
+            // Tampilan Loading
+            btn.disabled = true;
+            btn.innerText = "Memproses...";
+            showResult('Sedang memproses (butuh sekitar 15-30 detik)... ⏳<br><small>Menunggu browser memecahkan captcha.</small>', 'loading-box');
+
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (data.success) {
+                    showResult(`
+                        <b>Berhasil! 🎉</b><br><br>
+                        Link Asli:<br>
+                        <a href="${data.final_url}" target="_blank">${data.final_url}</a>
+                    `, 'success-box');
+                } else {
+                    showResult(`<b>Gagal:</b> ${data.error || 'Terjadi kesalahan pada server API'}`, 'error-box');
+                }
+            } catch (error) {
+                showResult(`<b>Error Koneksi:</b> Pastikan API VPS menyala dan sudah menggunakan HTTPS.`, 'error-box');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Bypass Sekarang";
+            }
+        }
+
+        function showResult(html, className) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = className;
+            resultDiv.innerHTML = html;
+        }
+    </script>
+
+</body>
+</html>
