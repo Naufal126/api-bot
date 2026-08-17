@@ -1,272 +1,354 @@
-
 <!DOCTYPE html>
 <html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naufal API Reference</title>
+    <title>NAUFAL APIES - Documentation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap');
-        
-        body { 
-            font-family: 'Inter', sans-serif;
-            background-color: #09090b; /* Zinc-950 */
-            color: #e4e4e7; /* Zinc-200 */
-        }
-        
-        pre, code { font-family: 'Fira Code', monospace; }
-
-        /* Scrollbar Minimalis */
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #52525b; }
-        
-        /* Animasi Transisi Halus */
-        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #09090b; color: #e4e4e7; }
+        .bg-grid { background-size: 40px 40px; background-image: radial-gradient(circle, #18181b 1px, transparent 1px); }
+        .glass { background: rgba(24, 24, 27, 0.5); backdrop-filter: blur(12px); }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-header { background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(39, 39, 42, 0.8); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-zinc-800">
+<body class="min-h-screen bg-zinc-950 bg-grid selection:bg-blue-500/30 flex flex-col">
 
-    <!-- Topbar -->
-    <header class="border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-6 h-14 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-7 h-7 rounded bg-zinc-100 flex items-center justify-center text-zinc-950">
-                    <i class="fa-solid fa-bolt text-xs"></i>
-                </div>
-                <h1 class="font-semibold text-sm tracking-wide">Naufal API Reference</h1>
+    <!-- HEADER DENGAN LOGO & JAM DIGITAL -->
+    <header class="glass-header sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+        <a href="/" onclick="navigate('/', event)" class="flex items-center gap-3 group cursor-pointer">
+            <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
+                <span class="font-black text-white text-sm">N</span>
             </div>
-            <div class="flex items-center gap-2 text-xs font-medium text-zinc-400">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                Operational
+            <div class="leading-none flex items-center gap-1">
+                <span class="text-[14px] font-black tracking-wider text-white uppercase">NAUFAL</span>
+                <span class="text-[14px] font-black tracking-wider text-blue-500 uppercase">APIES</span>
             </div>
-        </div>
+        </a>
+        
+        <nav class="flex items-center gap-5 text-xs font-bold text-zinc-400">
+            <!-- Jam Digital -->
+            <div class="font-mono text-[11px] bg-zinc-900/80 px-3 py-1.5 rounded-lg text-blue-400 border border-zinc-800 flex items-center gap-2 shadow-inner hidden sm:flex">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                <span id="clock-time">00:00:00 WIB</span>
+            </div>
+            <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900 text-white hover:bg-zinc-800 transition-colors">
+                <i class="fa-solid fa-bars text-sm"></i>
+            </button>
+        </nav>
     </header>
 
-    <!-- Main Workspace -->
-    <div class="flex-grow max-w-6xl mx-auto w-full flex flex-col lg:flex-row">
-        
-        <!-- Sidebar Navigation -->
-        <aside class="w-full lg:w-64 border-r border-zinc-800/80 p-6 flex-shrink-0">
-            <h3 class="text-[11px] font-semibold text-zinc-500 uppercase tracking-widest mb-4">Endpoints</h3>
-            <nav class="space-y-1">
-                <button onclick="openEndpoint('ouo')" id="nav-ouo" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50 transition-colors">
-                    <span class="text-[10px] font-mono text-zinc-500">GET</span>
-                    <span>Ouo Bypasser</span>
-                </button>
-            </nav>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="flex-grow p-6 lg:p-8 overflow-hidden min-h-[500px]">
-            
-            <!-- Welcome Screen (Tampil Pertama Kali) -->
-            <div id="welcome-screen" class="h-full flex flex-col items-center justify-center text-center mt-20 fade-in">
-                <div class="w-16 h-16 rounded-full bg-zinc-900 flex items-center justify-center mb-4 border border-zinc-800">
-                    <i class="fa-solid fa-code text-zinc-500 text-xl"></i>
+    <main class="w-full flex-grow flex flex-col">
+        <!-- 1. HOME VIEW -->
+        <section id="view-home" class="view-page hidden fade-in flex-grow flex items-center justify-center p-6">
+            <div class="text-center space-y-6 -mt-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium">
+                    <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span></span>
+                    SYSTEM ONLINE
                 </div>
-                <h2 class="text-lg font-medium text-zinc-200">API Documentation</h2>
-                <p class="text-sm text-zinc-500 mt-2 max-w-sm">Pilih salah satu endpoint dari menu di sebelah kiri untuk melihat detail request dan menguji API.</p>
+                <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter">NAUFAL<span class="text-blue-500">APIES</span></h1>
+                <p class="text-zinc-400 max-w-lg mx-auto leading-relaxed">Platform API modern untuk kebutuhan integrasi digital kamu. Cepat, stabil, dan mudah digunakan.</p>
+                <button onclick="navigate('/docs', event)" class="group bg-white hover:bg-zinc-200 text-black px-8 py-3 rounded-xl font-bold transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto">
+                    Explore Docs <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- 2. DOCS VIEW (LIST/ACCORDION LAYOUT) -->
+        <section id="view-docs" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-white tracking-tight">API Categories</h2>
+                <button onclick="navigate('/', event)" class="text-xs font-semibold text-zinc-400 hover:text-white transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-left text-[10px]"></i> Back Home
+                </button>
             </div>
 
-            <!-- Endpoint Detail Screen (Tampil Setelah Menu Diklik) -->
-            <div id="endpoint-screen" class="hidden fade-in h-full flex flex-col">
+            <div class="space-y-3">
                 
-                <!-- Tombol Kembali dengan Panah -->
-                <button onclick="backToMenu()" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-400 hover:text-zinc-100 mb-6 w-max transition-colors group">
-                    <i class="fa-solid fa-arrow-left text-xs group-hover:-translate-x-1 transition-transform"></i>
-                    <span>Kembali ke Menu</span>
-                </button>
-
-                <div class="mb-8">
-                    <div class="flex items-center gap-3 mb-2">
-                        <span class="bg-zinc-100 text-zinc-950 text-[10px] font-bold px-2 py-0.5 rounded font-mono">GET</span>
-                        <h2 class="text-xl font-semibold text-zinc-100">Ouo Link Bypasser</h2>
+                <!-- Category: AI -->
+                <div>
+                    <button onclick="toggleAccordion('cat-ai')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
+                        <span class="text-[13px] font-black text-white tracking-wide">AI</span>
+                        <span class="flex items-center gap-3">
+                            <span class="bg-zinc-800 text-[10px] px-2 py-0.5 rounded-full text-zinc-500 font-medium">0</span>
+                            <i id="icon-cat-ai" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
+                        </span>
+                    </button>
+                    <div id="cat-ai" class="hidden mt-2 px-2">
+                        <div class="bg-zinc-900/40 border border-zinc-800/50 p-4 rounded-lg text-center text-xs text-zinc-500 italic">
+                            Belum ada endpoint tersedia
+                        </div>
                     </div>
-                    <p class="text-sm text-zinc-400">Otomatisasi bypass proteksi captcha ouo.io dan ouo.press menggunakan Puppeteer Engine.</p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-grow">
+                <!-- Category: SEARCH -->
+                <div>
+                    <button onclick="toggleAccordion('cat-search')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
+                        <span class="text-[13px] font-black text-white tracking-wide">SEARCH</span>
+                        <span class="flex items-center gap-3">
+                            <span class="bg-zinc-800 text-[10px] px-2 py-0.5 rounded-full text-zinc-500 font-medium">0</span>
+                            <i id="icon-cat-search" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
+                        </span>
+                    </button>
+                    <div id="cat-search" class="hidden mt-2 px-2">
+                        <div class="bg-zinc-900/40 border border-zinc-800/50 p-4 rounded-lg text-center text-xs text-zinc-500 italic">
+                            Belum ada endpoint tersedia
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category: DOWNLOADER -->
+                <div>
+                    <button onclick="toggleAccordion('cat-downloader')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
+                        <span class="text-[13px] font-black text-white tracking-wide">DOWNLOADER</span>
+                        <span class="flex items-center gap-3">
+                            <span class="bg-zinc-800 text-[10px] px-2 py-0.5 rounded-full text-zinc-500 font-medium">0</span>
+                            <i id="icon-cat-downloader" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
+                        </span>
+                    </button>
+                    <div id="cat-downloader" class="hidden mt-2 px-2">
+                        <div class="bg-zinc-900/40 border border-zinc-800/50 p-4 rounded-lg text-center text-xs text-zinc-500 italic">
+                            Belum ada endpoint tersedia
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category: MAKER -->
+                <div>
+                    <button onclick="toggleAccordion('cat-maker')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
+                        <span class="text-[13px] font-black text-white tracking-wide">MAKER</span>
+                        <span class="flex items-center gap-3">
+                            <span class="bg-zinc-800 text-[10px] px-2 py-0.5 rounded-full text-zinc-500 font-medium">0</span>
+                            <i id="icon-cat-maker" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
+                        </span>
+                    </button>
+                    <div id="cat-maker" class="hidden mt-2 px-2">
+                        <div class="bg-zinc-900/40 border border-zinc-800/50 p-4 rounded-lg text-center text-xs text-zinc-500 italic">
+                            Belum ada endpoint tersedia
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category: BYPASS -->
+                <div>
+                    <button onclick="toggleAccordion('cat-bypass')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
+                        <span class="text-[13px] font-black text-white tracking-wide">BYPASS</span>
+                        <span class="flex items-center gap-3">
+                            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full font-bold">1</span>
+                            <i id="icon-cat-bypass" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
+                        </span>
+                    </button>
+                    <div id="cat-bypass" class="hidden mt-2 space-y-2 px-2">
+                        <div onclick="navigate('/docs/bypass/ouo', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Ouo.io Bypasser</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. ENDPOINT DETAIL & TESTER VIEW -->
+        <section id="view-endpoint-ouo" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
+            </button>
+
+            <!-- Main Endpoint Card Container -->
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                
+                <!-- Header Info & Badges -->
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">BYPASS</span>
+                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">NO AUTH</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">Ouo Bypasser</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Dapatkan link asli secara otomatis dari Shortlink Ouo.io tanpa captcha.</p>
+                    </div>
+                </div>
+
+                <!-- Parameters Section -->
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
                     
-                    <!-- Left: Request Configuration -->
-                    <div class="space-y-5">
-                        <h3 class="text-xs font-semibold text-zinc-400 uppercase tracking-widest border-b border-zinc-800 pb-2">Request</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">url</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">URL target Ouo yang ingin di-bypass</p>
                         
-                        <div class="space-y-4">
-                            <!-- Base URL Info -->
-                            <div class="bg-zinc-900/50 border border-zinc-800 rounded-lg p-3">
-                                <span class="text-xs text-zinc-500 block mb-1">Endpoint URL</span>
-                                <code class="text-xs text-zinc-300 break-all">https://api.naufal.fun/api/bypass</code>
+                        <!-- Input and API URL display -->
+                        <div>
+                            <input type="text" id="param-url" value="https://ouo.io/1GkFdx" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+                            
+                            <div class="mt-2 flex items-start gap-2 bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50">
+                                <i class="fa-solid fa-link text-[10px] text-zinc-500 mt-0.5"></i>
+                                <span id="api-url-display" class="text-[10px] text-zinc-400 font-mono break-all leading-tight"></span>
                             </div>
+                        </div>
+                    </div>
+                </div>
 
-                            <!-- Input Parameter -->
-                            <div>
-                                <label class="flex justify-between text-xs font-medium text-zinc-400 mb-2">
-                                    <span>Query Parameter (url) <span class="text-zinc-600">*</span></span>
-                                </label>
-                                <input type="text" id="param-url" value="https://ouo.io/1GkFdx" 
-                                    class="w-full bg-zinc-950 border border-zinc-800 focus:border-zinc-500 text-sm rounded-lg px-3 py-2.5 text-zinc-200 outline-none transition-colors font-mono" 
-                                    placeholder="https://ouo.io/...">
+                <!-- Action Button -->
+                <button id="send-btn" onclick="executeApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <!-- Sample / Live Response Section -->
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <!-- Code Window Header Bar -->
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
                             </div>
-
-                            <!-- Execute Button -->
-                            <button id="send-btn" onclick="executeApi()" class="w-full bg-zinc-100 hover:bg-white text-zinc-950 font-medium text-sm rounded-lg py-2.5 transition-colors flex justify-center items-center gap-2">
-                                <i class="fa-solid fa-play text-xs"></i>
-                                <span>Execute Request</span>
+                            <button onclick="copyResponse()" id="copy-btn" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium">
+                                <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
                             </button>
                         </div>
-                    </div>
-
-                    <!-- Right: Response JSON -->
-                    <div class="space-y-5">
-                        <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
-                            <h3 class="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Response</h3>
-                            <div id="res-badges" class="hidden flex items-center gap-2">
-                                <span id="res-status" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300"></span>
-                                <span id="res-time" class="text-[10px] font-mono text-zinc-500"></span>
-                                <button onclick="copyResponse()" class="text-zinc-500 hover:text-zinc-300 ml-1" title="Copy JSON">
-                                    <i class="fa-regular fa-copy text-xs"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Kotak JSON -->
-                        <div class="bg-[#0c0c0e] border border-zinc-800 rounded-lg relative h-[300px]">
-                            <!-- Status Kosong Awal -->
-                            <div id="json-empty" class="absolute inset-0 flex flex-col items-center justify-center text-zinc-600">
-                                <i class="fa-solid fa-terminal text-lg mb-2 opacity-50"></i>
-                                <span class="text-xs">Klik execute untuk melihat respon</span>
-                            </div>
-                            <!-- Output JSON Sesungguhnya -->
-                            <pre id="json-output" class="hidden h-full text-[11px] leading-relaxed text-zinc-300 p-4 overflow-y-auto whitespace-pre-wrap break-all custom-scrollbar"></pre>
+                        
+                        <!-- JSON Content Window -->
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": {
+        "original_url": "https://ouo.io/1GkFdx",
+        "bypassed_url": "https://example.com/target-link"
+    }
+}</pre>
                         </div>
                     </div>
-
                 </div>
-            </div>
 
-        </main>
-    </div>
+            </div>
+        </section>
+    </main>
 
     <script>
-        // Syntax Highlighter
-        function syntaxHighlight(json) {
-            if (typeof json != 'string') json = JSON.stringify(json, undefined, 4);
-            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-                var cls = 'text-zinc-300';
-                if (/^"/.test(match)) {
-                    if (/:$/.test(match)) {
-                        cls = 'text-zinc-400 font-semibold';
-                    } else {
-                        cls = 'text-zinc-300';
-                    }
-                } else if (/true|false/.test(match) || /null/.test(match)) {
-                    cls = 'text-zinc-500';
-                }
-                return '<span class="' + cls + '">' + match + '</span>';
-            });
+        // --- SCRIPT JAM DIGITAL ---
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('clock-time').innerText = timeString + " WIB";
         }
+        setInterval(updateClock, 1000);
+        updateClock();
 
-        // Fungsi Buka Menu Sidebar
-        function openEndpoint(endpointId) {
-            document.getElementById('welcome-screen').classList.add('hidden');
-            const epScreen = document.getElementById('endpoint-screen');
-            epScreen.classList.remove('hidden');
-            
-            epScreen.classList.remove('fade-in');
-            void epScreen.offsetWidth;
-            epScreen.classList.add('fade-in');
-
-            document.getElementById('nav-ouo').classList.replace('text-zinc-400', 'text-zinc-100');
-            document.getElementById('nav-ouo').classList.add('bg-zinc-800/50');
-            
-            // Reset state JSON
-            document.getElementById('json-output').classList.add('hidden');
-            document.getElementById('json-empty').classList.remove('hidden');
-            document.getElementById('res-badges').classList.add('hidden');
-        }
-
-        // Fungsi Kembali ke Menu Awal
-        function backToMenu() {
-            document.getElementById('endpoint-screen').classList.add('hidden');
-            const welcome = document.getElementById('welcome-screen');
-            welcome.classList.remove('hidden');
-            
-            welcome.classList.remove('fade-in');
-            void welcome.offsetWidth;
-            welcome.classList.add('fade-in');
-
-            // Reset menu aktif di sidebar
-            const navBtn = document.getElementById('nav-ouo');
-            navBtn.classList.replace('text-zinc-100', 'text-zinc-400');
-            navBtn.classList.remove('bg-zinc-800/50');
-        }
-
-        // Fungsi Eksekusi API
-        async function executeApi() {
-            const targetUrl = document.getElementById('param-url').value;
-            if (!targetUrl) return alert('Parameter url tidak boleh kosong!');
-
-            const requestUrl = `https://api.naufal.fun/api/bypass?url=${encodeURIComponent(targetUrl)}`;
-            
-            const btn = document.getElementById('send-btn');
-            const output = document.getElementById('json-output');
-            const emptyState = document.getElementById('json-empty');
-            const badges = document.getElementById('res-badges');
-            const statusBadge = document.getElementById('res-status');
-            const timeBadge = document.getElementById('res-time');
-
-            emptyState.classList.add('hidden');
-            output.classList.remove('hidden');
-            badges.classList.add('hidden');
-            
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-xs"></i><span>Memproses...</span>`;
-            output.innerHTML = "<span class='text-zinc-500'>// Mengirim request ke server...\n// Sedang memproses bypass...</span>";
-
-            const startTime = performance.now();
-
-            try {
-                const res = await fetch(requestUrl);
-                const duration = Math.round(performance.now() - startTime);
-                const data = await res.json();
-
-                badges.classList.remove('hidden');
-                timeBadge.innerText = `${duration}ms`;
-                statusBadge.innerText = res.status;
-                statusBadge.className = res.ok 
-                    ? "text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-100" 
-                    : "text-[10px] font-mono px-1.5 py-0.5 rounded bg-red-900/30 text-red-400";
-
-                output.innerHTML = syntaxHighlight(data);
-
-            } catch (err) {
-                badges.classList.remove('hidden');
-                statusBadge.innerText = "ERROR";
-                statusBadge.className = "text-[10px] font-mono px-1.5 py-0.5 rounded bg-red-900/30 text-red-400";
-                timeBadge.innerText = "";
-                output.innerHTML = syntaxHighlight({ success: false, error: "Koneksi ke server gagal." });
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-play text-xs"></i><span>Execute Request</span>`;
+        // --- ACCORDION TOGGLE ---
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(90deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
             }
         }
 
-        // Fungsi Copy JSON
+        // --- COPY RESPONSE ---
         function copyResponse() {
             const text = document.getElementById('json-output').innerText;
-            if(!text || text.includes('Mengirim request')) return;
             navigator.clipboard.writeText(text);
-            alert('JSON response disalin!');
+            const btn = document.getElementById('copy-btn');
+            btn.innerHTML = `<i class="fa-solid fa-check text-xs text-emerald-400"></i> <span class="text-emerald-400">Copied!</span>`;
+            setTimeout(() => {
+                btn.innerHTML = `<i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>`;
+            }, 2000);
         }
+
+        // --- DYNAMIC API URL DISPLAY ---
+        const urlInput = document.getElementById('param-url');
+        const urlDisplay = document.getElementById('api-url-display');
+
+        function updateUrlDisplay() {
+            // Gunakan domain API Naufal sebagai base url dummy jika diakses via local
+            const baseUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+                            ? 'https://api.naufal.fun' 
+                            : window.location.origin;
+            urlDisplay.innerText = `${baseUrl}/api/bypass?url=${encodeURIComponent(urlInput.value)}`;
+        }
+        
+        // Listen saat user mengetik
+        urlInput.addEventListener('input', updateUrlDisplay);
+
+        // --- ROUTING & API EXECUTION ---
+        function navigate(path, event) { 
+            if (event) event.preventDefault(); 
+            window.history.pushState({}, '', path); 
+            handleRoute(); 
+        }
+        window.addEventListener('popstate', handleRoute);
+        
+        function handleRoute() {
+            const path = window.location.pathname.replace(/\/$/, '') || '/';
+            document.querySelectorAll('.view-page').forEach(el => el.classList.add('hidden'));
+            if (path === '/') document.getElementById('view-home').classList.remove('hidden');
+            else if (path === '/docs') document.getElementById('view-docs').classList.remove('hidden');
+            else if (path === '/docs/bypass/ouo') {
+                document.getElementById('view-endpoint-ouo').classList.remove('hidden');
+                updateUrlDisplay(); // Update display url saat view ini dibuka
+            }
+            else document.getElementById('view-home').classList.remove('hidden');
+        }
+
+        async function executeApi() {
+            const url = document.getElementById('param-url').value;
+            const output = document.getElementById('json-output');
+            
+            // Tampilan loading dalam format JSON
+            const loadingJson = {
+                status: "processing",
+                message: "Fetching data from server, please wait..."
+            };
+            output.className = "text-[12px] font-mono text-yellow-400 leading-relaxed"; // Warna kuning untuk loading
+            output.innerText = JSON.stringify(loadingJson, null, 4);
+
+            try {
+                const res = await fetch(`/api/bypass?url=${encodeURIComponent(url)}`);
+                const data = await res.json();
+                
+                // Jika response server statusnya gagal, warnai merah. Jika sukses hijau.
+                if(data.status === false || res.status !== 200) {
+                    output.className = "text-[12px] font-mono text-red-400 leading-relaxed";
+                } else {
+                    output.className = "text-[12px] font-mono text-emerald-400 leading-relaxed";
+                }
+                output.innerText = JSON.stringify(data, null, 4);
+
+            } catch (e) { 
+                // Tampilan error berbentuk JSON yang rapi
+                const errorJson = {
+                    status: false,
+                    creator: "Naufal Apies",
+                    message: "Endpoint unreachable or internal server error."
+                };
+                output.className = "text-[12px] font-mono text-red-400 leading-relaxed"; // Warna merah untuk error
+                output.innerText = JSON.stringify(errorJson, null, 4);
+            }
+        }
+        
+        handleRoute();
     </script>
 </body>
 </html>
