@@ -11,8 +11,8 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #09090b; color: #e4e4e7; }
         .bg-grid { background-size: 40px 40px; background-image: radial-gradient(circle, #18181b 1px, transparent 1px); }
         .glass { background: rgba(24, 24, 27, 0.5); backdrop-filter: blur(12px); }
-        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .glass-header { background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(39, 39, 42, 0.8); }
         /* Custom scrollbar for URL container */
         .url-scroll::-webkit-scrollbar { height: 4px; }
@@ -39,9 +39,26 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
                 <span id="clock-time">00:00:00 WIB</span>
             </div>
-            <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900 text-white hover:bg-zinc-800 transition-colors">
-                <i class="fa-solid fa-bars text-sm"></i>
-            </button>
+            
+            <!-- MENU GARIS 3 (DROPDOWN) -->
+            <div class="relative">
+                <button onclick="toggleMenu()" id="menu-btn" class="w-9 h-9 flex items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900 text-white hover:bg-zinc-800 transition-colors">
+                    <i class="fa-solid fa-bars text-sm"></i>
+                </button>
+                
+                <!-- DROPDOWN CONTENT -->
+                <div id="dropdown-menu" class="hidden absolute right-0 mt-3 w-48 bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl py-1.5 z-50 fade-in">
+                    <button onclick="navigate('/', event); toggleMenu()" class="w-full text-left px-4 py-2.5 text-xs font-semibold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors flex items-center gap-3">
+                        <i class="fa-solid fa-house w-4 text-center"></i> Home
+                    </button>
+                    <button onclick="navigate('/webdev', event); toggleMenu()" class="w-full text-left px-4 py-2.5 text-xs font-semibold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors flex items-center gap-3">
+                        <i class="fa-solid fa-code w-4 text-center"></i> Project Dev
+                    </button>
+                    <button onclick="navigate('/contact', event); toggleMenu()" class="w-full text-left px-4 py-2.5 text-xs font-semibold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors flex items-center gap-3">
+                        <i class="fa-solid fa-envelope w-4 text-center"></i> Contact Dev
+                    </button>
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -63,15 +80,12 @@
 
         <!-- 2. DOCS VIEW (LIST/ACCORDION LAYOUT) -->
         <section id="view-docs" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <div class="flex items-center justify-between mb-6">
+            <div class="mb-6">
                 <h2 class="text-xl font-bold text-white tracking-tight">API Categories</h2>
-                <button onclick="navigate('/', event)" class="text-xs font-semibold text-zinc-400 hover:text-white transition-colors flex items-center gap-2">
-                    <i class="fa-solid fa-chevron-left text-[10px]"></i> Back Home
-                </button>
+                <p class="text-xs text-zinc-400 mt-1">Pilih kategori API yang ingin kamu gunakan</p>
             </div>
 
             <div class="space-y-3">
-
                 <!-- Category: AI -->
                 <div>
                     <button onclick="toggleAccordion('cat-ai')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
@@ -88,6 +102,22 @@
                                 <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Claude AI (Anthropic)</span>
                             </div>
                             <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category: DOWNLOADER (BAWAH AI) -->
+                <div>
+                    <button onclick="toggleAccordion('cat-downloader')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
+                        <span class="text-[13px] font-black text-white tracking-wide">DOWNLOADER</span>
+                        <span class="flex items-center gap-3">
+                            <span class="bg-zinc-800 text-[10px] px-2 py-0.5 rounded-full text-zinc-500 font-medium">0</span>
+                            <i id="icon-cat-downloader" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
+                        </span>
+                    </button>
+                    <div id="cat-downloader" class="hidden mt-2 px-2">
+                        <div class="bg-zinc-900/40 border border-zinc-800/50 p-4 rounded-lg text-center text-xs text-zinc-500 italic">
+                            Belum ada endpoint downloader tersedia
                         </div>
                     </div>
                 </div>
@@ -161,7 +191,6 @@
                         <div>
                             <input type="text" id="param-url" value="https://ouo.io/1GkFdx" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
                             
-                            <!-- KOTAK TAMPILAN URL DENGAN TOMBOL COPY -->
                             <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
                                 <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
                                     <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
@@ -182,9 +211,7 @@
                 <div class="space-y-3 pt-2 border-t border-zinc-800/60">
                     <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
                     <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
-                        <!-- Code Window Header DENGAN WAKTU RESPON DI SEBELAH KANAN -->
                         <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
-                            <!-- Bagian Kiri: Titik 3 & Judul -->
                             <div class="flex items-center gap-3">
                                 <div class="flex items-center gap-1.5">
                                     <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
@@ -194,11 +221,8 @@
                                 <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
                             </div>
                             
-                            <!-- Bagian Kanan: Badge Waktu Respon + Tombol Copy -->
                             <div class="flex items-center gap-4">
-                                <!-- Badge Waktu Respon (Pindah ke sini) -->
                                 <span id="time-badge-ouo" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
-                                
                                 <button onclick="copyResponse('json-output-ouo', 'copy-btn-ouo')" id="copy-btn-ouo" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
                                     <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
                                 </button>
@@ -249,7 +273,6 @@
                         <div>
                             <input type="text" id="param-text-claude" value="Halo, siapa kamu?" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
                             
-                            <!-- KOTAK TAMPILAN URL DENGAN TOMBOL COPY -->
                             <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
                                 <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
                                     <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
@@ -270,9 +293,7 @@
                 <div class="space-y-3 pt-2 border-t border-zinc-800/60">
                     <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
                     <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
-                        <!-- Code Window Header DENGAN WAKTU RESPON DI SEBELAH KANAN -->
                         <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
-                            <!-- Bagian Kiri: Titik 3 & Judul -->
                             <div class="flex items-center gap-3">
                                 <div class="flex items-center gap-1.5">
                                     <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
@@ -282,11 +303,8 @@
                                 <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
                             </div>
 
-                            <!-- Bagian Kanan: Badge Waktu Respon + Tombol Copy -->
                             <div class="flex items-center gap-4">
-                                <!-- Badge Waktu Respon (Pindah ke sini) -->
                                 <span id="time-badge-claude" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
-                                
                                 <button onclick="copyResponse('json-output-claude', 'copy-btn-claude')" id="copy-btn-claude" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
                                     <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
                                 </button>
@@ -303,6 +321,39 @@
                 </div>
             </div>
         </section>
+
+        <!-- 4. PAGE PROJECT DEV (/webdev) -->
+        <section id="view-webdev" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8 flex-grow flex flex-col justify-center">
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-8 text-center space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center mx-auto text-xl border border-blue-500/20">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <h2 class="text-2xl font-black text-white">Project Dev / Webdev</h2>
+                <p class="text-xs text-zinc-400 max-w-md mx-auto leading-relaxed">Halaman ini digunakan untuk menampilkan portofolio dan proyek web pengembangan dari Naufal Apies.</p>
+                <button onclick="navigate('/docs', event)" class="bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition-colors inline-flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Docs
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. PAGE CONTACT DEV (/contact) -->
+        <section id="view-contact" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8 flex-grow flex flex-col justify-center">
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-8 text-center space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center mx-auto text-xl border border-blue-500/20">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <h2 class="text-2xl font-black text-white">Contact Developer</h2>
+                <p class="text-xs text-zinc-400 max-w-md mx-auto leading-relaxed">Punya pertanyaan, kendala API, atau ingin bekerja sama? Hubungi Developer secara langsung.</p>
+                <div class="pt-2 flex justify-center gap-3">
+                    <a href="https://wa.me/" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors inline-flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                    </a>
+                    <button onclick="navigate('/docs', event)" class="bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors">
+                        Kembali ke Docs
+                    </button>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script>
@@ -314,6 +365,21 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
+
+        // --- SCRIPT TOGGLE DROPDOWN MENU ---
+        function toggleMenu() {
+            const menu = document.getElementById('dropdown-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Tutup dropdown kalau nge-klik di luar area menu
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdown-menu');
+            const btn = document.getElementById('menu-btn');
+            if (!menu.contains(event.target) && !btn.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
 
         // --- ACCORDION TOGGLE ---
         function toggleAccordion(id) {
@@ -351,12 +417,11 @@
             }, 2000);
         }
 
-        // --- DYNAMIC API URL DISPLAY (FIXED TO HTTPS://API.NAUFAL.FUN) ---
+        // --- DYNAMIC API URL DISPLAY ---
         const getBaseUrl = () => {
             return 'https://api.naufal.fun';
         };
 
-        // OUO URL Update
         const urlInputOuo = document.getElementById('param-url');
         const urlDisplayOuo = document.getElementById('api-url-display');
         function updateUrlDisplayOuo() {
@@ -364,7 +429,6 @@
         }
         urlInputOuo.addEventListener('input', updateUrlDisplayOuo);
 
-        // CLAUDE URL Update
         const urlInputClaude = document.getElementById('param-text-claude');
         const urlDisplayClaude = document.getElementById('api-url-display-claude');
         function updateUrlDisplayClaude() {
@@ -389,6 +453,10 @@
                 document.getElementById('view-home').classList.remove('hidden');
             } else if (path === '/docs') {
                 document.getElementById('view-docs').classList.remove('hidden');
+            } else if (path === '/webdev') {
+                document.getElementById('view-webdev').classList.remove('hidden');
+            } else if (path === '/contact') {
+                document.getElementById('view-contact').classList.remove('hidden');
             } else if (path === '/docs/bypass/ouo') {
                 document.getElementById('view-endpoint-ouo').classList.remove('hidden');
                 updateUrlDisplayOuo();
@@ -406,17 +474,16 @@
             const output = document.getElementById('json-output-ouo');
             const timeBadge = document.getElementById('time-badge-ouo');
 
-            timeBadge.classList.add('hidden'); // Sembunyikan badge waktu saat loading
+            timeBadge.classList.add('hidden'); 
             output.className = "text-[12px] font-mono text-yellow-400 leading-relaxed";
             output.innerText = JSON.stringify({ status: "processing", message: "Fetching data..." }, null, 4);
 
-            const startTime = performance.now(); // Mulai hitung waktu
+            const startTime = performance.now(); 
             try {
                 const res = await fetch(`/api/bypass?url=${encodeURIComponent(url)}`);
                 const data = await res.json();
-                const endTime = performance.now(); // Selesai hitung waktu
+                const endTime = performance.now(); 
                 
-                // Tampilkan Waktu
                 timeBadge.innerText = `${(endTime - startTime).toFixed(0)}ms`;
                 timeBadge.classList.remove('hidden');
 
@@ -438,17 +505,16 @@
             const output = document.getElementById('json-output-claude');
             const timeBadge = document.getElementById('time-badge-claude');
 
-            timeBadge.classList.add('hidden'); // Sembunyikan badge waktu saat loading
+            timeBadge.classList.add('hidden');
             output.className = "text-[12px] font-mono text-yellow-400 leading-relaxed";
             output.innerText = JSON.stringify({ status: "processing", message: "AI is thinking..." }, null, 4);
 
-            const startTime = performance.now(); // Mulai hitung waktu
+            const startTime = performance.now(); 
             try {
                 const res = await fetch(`/api/claude?text=${encodeURIComponent(text)}`);
                 const data = await res.json();
-                const endTime = performance.now(); // Selesai hitung waktu
+                const endTime = performance.now(); 
 
-                // Tampilkan Waktu
                 timeBadge.innerText = `${(endTime - startTime).toFixed(0)}ms`;
                 timeBadge.classList.remove('hidden');
 
