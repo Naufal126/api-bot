@@ -6,11 +6,11 @@
     <title>NAUFAL APIES - Documentation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body class="min-h-screen bg-zinc-950 bg-grid selection:bg-blue-500/30 flex flex-col">
 
-    <!-- HEADER DENGAN LOGO & JAM DIGITAL -->
+    <!-- HEADER -->
     <header class="glass-header sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
         <a href="/" onclick="navigate('/', event)" class="flex items-center gap-3 group cursor-pointer">
             <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
@@ -210,11 +210,10 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <!-- ENDPOINT DETAILS SECTION -->
+        <!-- ENDPOINT: OUO BYPASSER -->
         <section id="view-endpoint-ouo" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
             <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
                 <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
@@ -246,7 +245,7 @@
                                     <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
                                     <span id="api-url-display" class="text-[10px] text-zinc-400 font-mono"></span>
                                 </div>
-                                <button onclick="copyApiUrl('api-url-display', 'copy-url-btn-ouo')" id="copy-url-btn-ouo" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                <button onclick="copyApiUrl('api-url-display', 'copy-url-btn-ouo')" id="copy-url-btn-ouo" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0">
                                     <i class="fa-regular fa-copy text-[12px]"></i>
                                 </button>
                             </div>
@@ -276,21 +275,229 @@
                             </div>
                         </div>
                         <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
-                            <pre id="json-output-ouo" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
-    "status": true,
-    "creator": "Naufal Apies",
-    "result": {
-        "original_url": "https://ouo.io/1GkFdx",
-        "bypassed_url": "https://example.com/target-link"
-    }
-}</pre>
+                            <pre id="json-output-ouo" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{ "status": true, "creator": "Naufal Apies", "result": {} }</pre>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. PAGE PROJECT DEV -->
+        <!-- ENDPOINT: CLAUDE AI -->
+        <section id="view-endpoint-claude" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6"><i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories</button>
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">AI</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div><h2 class="text-2xl font-extrabold text-white tracking-tight">Claude AI</h2><p class="text-xs text-zinc-400 mt-1 leading-relaxed">Chatbot AI berbasis model Claude yang interaktif.</p></div>
+                </div>
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2"><span class="text-xs font-mono font-bold text-white">text</span><span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span><span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span></div>
+                        <input type="text" id="param-text-claude" value="Halo, siapa kamu?" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+                        <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50">
+                            <span id="api-url-display-claude" class="text-[10px] text-zinc-400 font-mono"></span>
+                            <button onclick="copyApiUrl('api-url-display-claude', 'copy-url-btn-claude')" id="copy-url-btn-claude" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white"><i class="fa-regular fa-copy text-[12px]"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="executeClaudeApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2"><i class="fa-solid fa-play text-[10px]"></i> TRY API</button>
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <span class="text-[11px] font-mono text-zinc-400">RESPONSE.JSON</span>
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-claude" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-claude', 'copy-btn-claude')" id="copy-btn-claude" class="text-zinc-400 hover:text-white text-xs"><i class="fa-regular fa-copy text-xs"></i> <span>Copy</span></button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4"><pre id="json-output-claude" class="text-[12px] font-mono text-emerald-400">{ "status": true, "result": "Halo! Saya Claude..." }</pre></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENDPOINT: GEMINI AI -->
+        <section id="view-endpoint-gemini" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6"><i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories</button>
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2"><span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase">AI</span><span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase">FREE</span></div>
+                    <div><h2 class="text-2xl font-extrabold text-white">Gemini AI</h2><p class="text-xs text-zinc-400 mt-1">Layanan chatbot cerdas Google Gemini AI.</p></div>
+                </div>
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <input type="text" id="param-text-gemini" value="Jelaskan tentang AI" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200">
+                        <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50"><span id="api-url-display-gemini" class="text-[10px] text-zinc-400 font-mono"></span><button onclick="copyApiUrl('api-url-display-gemini', 'copy-url-btn-gemini')" id="copy-url-btn-gemini" class="ml-2 text-zinc-500 hover:text-white"><i class="fa-regular fa-copy text-[12px]"></i></button></div>
+                    </div>
+                </div>
+                <button onclick="executeGeminiApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl"><i class="fa-solid fa-play text-[10px]"></i> TRY API</button>
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800"><span class="text-[11px] font-mono text-zinc-400">RESPONSE.JSON</span><div class="flex items-center gap-4"><span id="time-badge-gemini" class="hidden text-[9px] font-mono text-blue-400">0ms</span><button onclick="copyResponse('json-output-gemini', 'copy-btn-gemini')" id="copy-btn-gemini" class="text-zinc-400 hover:text-white text-xs"><i class="fa-regular fa-copy"></i> Copy</button></div></div>
+                        <div class="bg-[#0d0d0d] p-4"><pre id="json-output-gemini" class="text-[12px] font-mono text-emerald-400">{ "status": true, "result": "Gemini AI..." }</pre></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENDPOINT: INSTAGRAM DOWNLOADER -->
+        <section id="view-endpoint-ig" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6"><i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories</button>
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3"><div class="flex gap-2"><span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase">DOWNLOADER</span></div><h2 class="text-2xl font-extrabold text-white">Instagram Downloader</h2></div>
+                <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                    <input type="text" id="param-url-ig" value="https://www.instagram.com/p/C..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200">
+                    <div class="mt-2 flex justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50"><span id="api-url-display-ig" class="text-[10px] text-zinc-400 font-mono"></span><button onclick="copyApiUrl('api-url-display-ig', 'copy-url-btn-ig')" id="copy-url-btn-ig" class="text-zinc-500 hover:text-white"><i class="fa-regular fa-copy text-[12px]"></i></button></div>
+                </div>
+                <button onclick="executeIgApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl"><i class="fa-solid fa-play"></i> TRY API</button>
+                <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                    <div class="bg-zinc-900 px-4 py-2.5 flex justify-between border-b border-zinc-800"><span class="text-[11px] font-mono text-zinc-400">RESPONSE.JSON</span><div class="flex gap-4"><span id="time-badge-ig" class="hidden text-[9px] font-mono text-blue-400">0ms</span><button onclick="copyResponse('json-output-ig', 'copy-btn-ig')" id="copy-btn-ig" class="text-zinc-400 hover:text-white text-xs"><i class="fa-regular fa-copy"></i> Copy</button></div></div>
+                    <div class="bg-[#0d0d0d] p-4"><pre id="json-output-ig" class="text-[12px] font-mono text-emerald-400">{ "status": true, "result": [] }</pre></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENDPOINT: YOUTUBE MP3 -->
+        <section id="view-endpoint-ytmp3" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 mb-6"><i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories</button>
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <h2 class="text-2xl font-extrabold text-white">YouTube MP3 Downloader</h2>
+                <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                    <input type="text" id="param-url-ytmp3" value="https://youtu.be/..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200">
+                    <div class="mt-2 flex justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50"><span id="api-url-display-ytmp3" class="text-[10px] text-zinc-400 font-mono"></span><button onclick="copyApiUrl('api-url-display-ytmp3', 'copy-url-btn-ytmp3')" id="copy-url-btn-ytmp3" class="text-zinc-500 hover:text-white"><i class="fa-regular fa-copy text-[12px]"></i></button></div>
+                </div>
+                <button onclick="executeYtmp3Api()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl"><i class="fa-solid fa-play"></i> TRY API</button>
+                <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                    <div class="bg-zinc-900 px-4 py-2.5 flex justify-between border-b border-zinc-800"><span class="text-[11px] font-mono text-zinc-400">RESPONSE.JSON</span><div class="flex gap-4"><span id="time-badge-ytmp3" class="hidden text-[9px] font-mono text-blue-400">0ms</span><button onclick="copyResponse('json-output-ytmp3', 'copy-btn-ytmp3')" id="copy-btn-ytmp3" class="text-zinc-400 hover:text-white text-xs"><i class="fa-regular fa-copy"></i> Copy</button></div></div>
+                    <div class="bg-[#0d0d0d] p-4"><pre id="json-output-ytmp3" class="text-[12px] font-mono text-emerald-400">{ "status": true, "result": {} }</pre></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENDPOINT: YOUTUBE MP4 -->
+        <section id="view-endpoint-ytmp4" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 mb-6"><i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories</button>
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <h2 class="text-2xl font-extrabold text-white">YouTube MP4 Downloader</h2>
+                <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                    <input type="text" id="param-url-ytmp4" value="https://youtu.be/..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200">
+                    <div class="mt-2 flex justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50"><span id="api-url-display-ytmp4" class="text-[10px] text-zinc-400 font-mono"></span><button onclick="copyApiUrl('api-url-display-ytmp4', 'copy-url-btn-ytmp4')" id="copy-url-btn-ytmp4" class="text-zinc-500 hover:text-white"><i class="fa-regular fa-copy text-[12px]"></i></button></div>
+                </div>
+                <button onclick="executeYtmp4Api()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl"><i class="fa-solid fa-play"></i> TRY API</button>
+                <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                    <div class="bg-zinc-900 px-4 py-2.5 flex justify-between border-b border-zinc-800"><span class="text-[11px] font-mono text-zinc-400">RESPONSE.JSON</span><div class="flex gap-4"><span id="time-badge-ytmp4" class="hidden text-[9px] font-mono text-blue-400">0ms</span><button onclick="copyResponse('json-output-ytmp4', 'copy-btn-ytmp4')" id="copy-btn-ytmp4" class="text-zinc-400 hover:text-white text-xs"><i class="fa-regular fa-copy"></i> Copy</button></div></div>
+                    <div class="bg-[#0d0d0d] p-4"><pre id="json-output-ytmp4" class="text-[12px] font-mono text-emerald-400">{ "status": true, "result": {} }</pre></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENDPOINT: TIKTOK -->
+        <section id="view-endpoint-tiktok" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 mb-6"><i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories</button>
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <h2 class="text-2xl font-extrabold text-white">TikTok Downloader</h2>
+                <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                    <input type="text" id="param-url-tiktok" value="https://vt.tiktok.com/..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200">
+                    <div class="mt-2 flex justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50"><span id="api-url-display-tiktok" class="text-[10px] text-zinc-400 font-mono"></span><button onclick="copyApiUrl('api-url-display-tiktok', 'copy-url-btn-tiktok')" id="copy-url-btn-tiktok" class="text-zinc-500 hover:text-white"><i class="fa-regular fa-copy text-[12px]"></i></button></div>
+                </div>
+                <button onclick="executeTiktokApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl"><i class="fa-solid fa-play"></i> TRY API</button>
+                <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                    <div class="bg-zinc-900 px-4 py-2.5 flex justify-between border-b border-zinc-800"><span class="text-[11px] font-mono text-zinc-400">RESPONSE.JSON</span><div class="flex gap-4"><span id="time-badge-tiktok" class="hidden text-[9px] font-mono text-blue-400">0ms</span><button onclick="copyResponse('json-output-tiktok', 'copy-btn-tiktok')" id="copy-btn-tiktok" class="text-zinc-400 hover:text-white text-xs"><i class="fa-regular fa-copy"></i> Copy</button></div></div>
+                    <div class="bg-[#0d0d0d] p-4"><pre id="json-output-tiktok" class="text-[12px] font-mono text-emerald-400">{ "status": true, "result": {} }</pre></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENDPOINT: FACEBOOK -->
+        <section id="view-endpoint-fb" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 mb-6"><i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories</button>
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <h2 class="text-2xl font-extrabold text-white">Facebook Downloader</h2>
+                <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                    <input type="text" id="param-url-fb" value="https://fb.watch/..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200">
+                    <div class="mt-2 flex justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50"><span id="api-url-display-fb" class="text-[10px] text-zinc-400 font-mono"></span><button onclick="copyApiUrl('api-url-display-fb', 'copy-url-btn-fb')" id="copy-url-btn-fb" class="text-zinc-500 hover:text-white"><i class="fa-regular fa-copy text-[12px]"></i></button></div>
+                </div>
+                <button onclick="executeFbApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl"><i class="fa-solid fa-play"></i> TRY API</button>
+                <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                    <div class="bg-zinc-900 px-4 py-2.5 flex justify-between border-b border-zinc-800"><span class="text-[11px] font-mono text-zinc-400">RESPONSE.JSON</span><div class="flex gap-4"><span id="time-badge-fb" class="hidden text-[9px] font-mono text-blue-400">0ms</span><button onclick="copyResponse('json-output-fb', 'copy-btn-fb')" id="copy-btn-fb" class="text-zinc-400 hover:text-white text-xs"><i class="fa-regular fa-copy"></i> Copy</button></div></div>
+                    <div class="bg-[#0d0d0d] p-4"><pre id="json-output-fb" class="text-[12px] font-mono text-emerald-400">{ "status": true, "result": {} }</pre></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENDPOINT: TWITTER / X -->
+        <section id="view-endpoint-twitter" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 mb-6"><i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories</button>
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <h2 class="text-2xl font-extrabold text-white">Twitter / X Downloader</h2>
+                <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                    <input type="text" id="param-url-twitter" value="https://x.com/..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200">
+                    <div class="mt-2 flex justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50"><span id="api-url-display-twitter" class="text-[10px] text-zinc-400 font-mono"></span><button onclick="copyApiUrl('api-url-display-twitter', 'copy-url-btn-twitter')" id="copy-url-btn-twitter" class="text-zinc-500 hover:text-white"><i class="fa-regular fa-copy text-[12px]"></i></button></div>
+                </div>
+                <button onclick="executeTwitterApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl"><i class="fa-solid fa-play"></i> TRY API</button>
+                <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                    <div class="bg-zinc-900 px-4 py-2.5 flex justify-between border-b border-zinc-800"><span class="text-[11px] font-mono text-zinc-400">RESPONSE.JSON</span><div class="flex gap-4"><span id="time-badge-twitter" class="hidden text-[9px] font-mono text-blue-400">0ms</span><button onclick="copyResponse('json-output-twitter', 'copy-btn-twitter')" id="copy-btn-twitter" class="text-zinc-400 hover:text-white text-xs"><i class="fa-regular fa-copy"></i> Copy</button></div></div>
+                    <div class="bg-[#0d0d0d] p-4"><pre id="json-output-twitter" class="text-[12px] font-mono text-emerald-400">{ "status": true, "result": {} }</pre></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENDPOINT: MEDIAFIRE -->
+        <section id="view-endpoint-mediafire" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 mb-6"><i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories</button>
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <h2 class="text-2xl font-extrabold text-white">MediaFire Downloader</h2>
+                <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                    <input type="text" id="param-url-mediafire" value="https://www.mediafire.com/file/..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200">
+                    <div class="mt-2 flex justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50"><span id="api-url-display-mediafire" class="text-[10px] text-zinc-400 font-mono"></span><button onclick="copyApiUrl('api-url-display-mediafire', 'copy-url-btn-mediafire')" id="copy-url-btn-mediafire" class="text-zinc-500 hover:text-white"><i class="fa-regular fa-copy text-[12px]"></i></button></div>
+                </div>
+                <button onclick="executeMediafireApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl"><i class="fa-solid fa-play"></i> TRY API</button>
+                <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                    <div class="bg-zinc-900 px-4 py-2.5 flex justify-between border-b border-zinc-800"><span class="text-[11px] font-mono text-zinc-400">RESPONSE.JSON</span><div class="flex gap-4"><span id="time-badge-mediafire" class="hidden text-[9px] font-mono text-blue-400">0ms</span><button onclick="copyResponse('json-output-mediafire', 'copy-btn-mediafire')" id="copy-btn-mediafire" class="text-zinc-400 hover:text-white text-xs"><i class="fa-regular fa-copy"></i> Copy</button></div></div>
+                    <div class="bg-[#0d0d0d] p-4"><pre id="json-output-mediafire" class="text-[12px] font-mono text-emerald-400">{ "status": true, "result": {} }</pre></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENDPOINT: SPOTIFY -->
+        <section id="view-endpoint-spotify" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 mb-6"><i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories</button>
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <h2 class="text-2xl font-extrabold text-white">Spotify Downloader</h2>
+                <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                    <input type="text" id="param-url-spotify" value="https://open.spotify.com/track/..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200">
+                    <div class="mt-2 flex justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50"><span id="api-url-display-spotify" class="text-[10px] text-zinc-400 font-mono"></span><button onclick="copyApiUrl('api-url-display-spotify', 'copy-url-btn-spotify')" id="copy-url-btn-spotify" class="text-zinc-500 hover:text-white"><i class="fa-regular fa-copy text-[12px]"></i></button></div>
+                </div>
+                <button onclick="executeSpotifyApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl"><i class="fa-solid fa-play"></i> TRY API</button>
+                <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                    <div class="bg-zinc-900 px-4 py-2.5 flex justify-between border-b border-zinc-800"><span class="text-[11px] font-mono text-zinc-400">RESPONSE.JSON</span><div class="flex gap-4"><span id="time-badge-spotify" class="hidden text-[9px] font-mono text-blue-400">0ms</span><button onclick="copyResponse('json-output-spotify', 'copy-btn-spotify')" id="copy-btn-spotify" class="text-zinc-400 hover:text-white text-xs"><i class="fa-regular fa-copy"></i> Copy</button></div></div>
+                    <div class="bg-[#0d0d0d] p-4"><pre id="json-output-spotify" class="text-[12px] font-mono text-emerald-400">{ "status": true, "result": {} }</pre></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENDPOINT: THREADS -->
+        <section id="view-endpoint-threads" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 mb-6"><i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories</button>
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <h2 class="text-2xl font-extrabold text-white">Threads Downloader</h2>
+                <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                    <input type="text" id="param-url-threads" value="https://www.threads.net/..." class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200">
+                    <div class="mt-2 flex justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50"><span id="api-url-display-threads" class="text-[10px] text-zinc-400 font-mono"></span><button onclick="copyApiUrl('api-url-display-threads', 'copy-url-btn-threads')" id="copy-url-btn-threads" class="text-zinc-500 hover:text-white"><i class="fa-regular fa-copy text-[12px]"></i></button></div>
+                </div>
+                <button onclick="executeThreadsApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl"><i class="fa-solid fa-play"></i> TRY API</button>
+                <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                    <div class="bg-zinc-900 px-4 py-2.5 flex justify-between border-b border-zinc-800"><span class="text-[11px] font-mono text-zinc-400">RESPONSE.JSON</span><div class="flex gap-4"><span id="time-badge-threads" class="hidden text-[9px] font-mono text-blue-400">0ms</span><button onclick="copyResponse('json-output-threads', 'copy-btn-threads')" id="copy-btn-threads" class="text-zinc-400 hover:text-white text-xs"><i class="fa-regular fa-copy"></i> Copy</button></div></div>
+                    <div class="bg-[#0d0d0d] p-4"><pre id="json-output-threads" class="text-[12px] font-mono text-emerald-400">{ "status": true, "result": {} }</pre></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE PROJECT DEV -->
         <section id="view-webdev" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8 flex-grow flex flex-col justify-center">
             <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-8 text-center space-y-4">
                 <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center mx-auto text-xl border border-blue-500/20">
@@ -304,7 +511,7 @@
             </div>
         </section>
 
-        <!-- 5. PAGE CONTACT DEV -->
+        <!-- PAGE CONTACT DEV -->
         <section id="view-contact" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8 flex-grow flex flex-col justify-center">
             <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-8 text-center space-y-4">
                 <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center mx-auto text-xl border border-blue-500/20">
@@ -324,6 +531,6 @@
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
 </body>
 </html>
