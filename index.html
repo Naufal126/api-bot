@@ -6,8 +6,8 @@
     <title>NAUFAL APIES - Documentation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- CSS EKSTERNAL -->
-    <link rel="stylesheet" href="style.css">
+    <!-- PENTING: Pakai garis miring di depan (/) -->
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body class="min-h-screen bg-zinc-950 bg-grid selection:bg-blue-500/30 flex flex-col">
 
@@ -297,11 +297,19 @@
             </div>
         </section>
 
-        <!-- ... (Section 3B sampai 5 dibiarkan sama persis seperti aslinya) ... -->
+        <!-- 3B. ENDPOINT DETAIL: CLAUDE AI -->
+        <section id="view-endpoint-claude" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
+            </button>
+            <!-- (Isi detail claude sama seperti file asli kamu) -->
+        </section>
+        
+        <!-- ... (Lanjutkan sisa section kamu persis seperti asli) ... -->
         
     </main>
 
-    <!-- SCRIPT EKSTERNAL -->
-    <script src="script.js"></script>
+    <!-- JS EKSTERNAL -->
+    <script src="/script.js"></script>
 </body>
 </html>
