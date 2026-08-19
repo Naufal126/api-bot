@@ -16,7 +16,7 @@ function toggleMenu() {
 document.addEventListener('click', function(event) {
     const menu = document.getElementById('dropdown-menu');
     const btn = document.getElementById('menu-btn');
-    if (!menu.contains(event.target) && !btn.contains(event.target)) {
+    if (menu && btn && !menu.contains(event.target) && !btn.contains(event.target)) {
         menu.classList.add('hidden');
     }
 });
@@ -120,6 +120,8 @@ function handleRoute() {
     if (targetEl) targetEl.classList.remove('hidden');
 }
 
+document.addEventListener('DOMContentLoaded', handleRoute);
+
 // --- HELPER UNTUK EXECUTE API ---
 async function fetchApi(endpoint, paramValue, outputId, timeBadgeId, procMsg) {
     const output = document.getElementById(outputId);
@@ -150,17 +152,40 @@ async function fetchApi(endpoint, paramValue, outputId, timeBadgeId, procMsg) {
     }
 }
 
-function executeOuoApi() { fetchApi('/api/bypass', `url=${encodeURIComponent(document.getElementById('param-url').value)}`, 'json-output-ouo', 'time-badge-ouo', 'Fetching data...'); }
-function executeClaudeApi() { fetchApi('/api/claude', `text=${encodeURIComponent(document.getElementById('param-text-claude').value)}`, 'json-output-claude', 'time-badge-claude', 'AI is thinking...'); }
-function executeGeminiApi() { fetchApi('/api/gemini', `text=${encodeURIComponent(document.getElementById('param-text-gemini').value)}`, 'json-output-gemini', 'time-badge-gemini', 'Gemini is thinking...'); }
-function executeIgApi() { fetchApi('/api/ig', `url=${encodeURIComponent(document.getElementById('param-url-ig').value)}`, 'json-output-ig', 'time-badge-ig', 'Fetching Instagram media...'); }
-function executeYtmp3Api() { fetchApi('/api/ytmp3', `url=${encodeURIComponent(document.getElementById('param-url-ytmp3').value)}`, 'json-output-ytmp3', 'time-badge-ytmp3', 'Extracting MP3 audio...'); }
-function executeYtmp4Api() { fetchApi('/api/ytmp4', `url=${encodeURIComponent(document.getElementById('param-url-ytmp4').value)}`, 'json-output-ytmp4', 'time-badge-ytmp4', 'Fetching YouTube video...'); }
-function executeTiktokApi() { fetchApi('/api/tiktok', `url=${encodeURIComponent(document.getElementById('param-url-tiktok').value)}`, 'json-output-tiktok', 'time-badge-tiktok', 'Fetching TikTok media...'); }
-function executeFbApi() { fetchApi('/api/fb', `url=${encodeURIComponent(document.getElementById('param-url-fb').value)}`, 'json-output-fb', 'time-badge-fb', 'Fetching Facebook media...'); }
-function executeTwitterApi() { fetchApi('/api/twitter', `url=${encodeURIComponent(document.getElementById('param-url-twitter').value)}`, 'json-output-twitter', 'time-badge-twitter', 'Fetching Twitter media...'); }
-function executeMediafireApi() { fetchApi('/api/mediafire', `url=${encodeURIComponent(document.getElementById('param-url-mediafire').value)}`, 'json-output-mediafire', 'time-badge-mediafire', 'Parsing MediaFire file...'); }
-function executeSpotifyApi() { fetchApi('/api/spotify', `url=${encodeURIComponent(document.getElementById('param-url-spotify').value)}`, 'json-output-spotify', 'time-badge-spotify', 'Fetching Spotify audio...'); }
-function executeThreadsApi() { fetchApi('/api/threads', `url=${encodeURIComponent(document.getElementById('param-url-threads').value)}`, 'json-output-threads', 'time-badge-threads', 'Fetching Threads media...'); }
-
-handleRoute();
+// --- EXECUTE FUNCTIONS ---
+function executeOuoApi() { 
+    fetchApi('/api/bypass', `url=${encodeURIComponent(document.getElementById('param-url').value)}`, 'json-output-ouo', 'time-badge-ouo', 'Memproses bypass link...'); 
+}
+function executeClaudeApi() { 
+    fetchApi('/api/claude', `text=${encodeURIComponent(document.getElementById('param-text-claude').value)}`, 'json-output-claude', 'time-badge-claude', 'Memproses Claude AI...'); 
+}
+function executeGeminiApi() { 
+    fetchApi('/api/gemini', `text=${encodeURIComponent(document.getElementById('param-text-gemini').value)}`, 'json-output-gemini', 'time-badge-gemini', 'Memproses Gemini AI...'); 
+}
+function executeIgApi() { 
+    fetchApi('/api/ig', `url=${encodeURIComponent(document.getElementById('param-url-ig').value)}`, 'json-output-ig', 'time-badge-ig', 'Memproses downloader Instagram...'); 
+}
+function executeYtmp3Api() { 
+    fetchApi('/api/ytmp3', `url=${encodeURIComponent(document.getElementById('param-url-ytmp3').value)}`, 'json-output-ytmp3', 'time-badge-ytmp3', 'Memproses downloader YTMP3...'); 
+}
+function executeYtmp4Api() { 
+    fetchApi('/api/ytmp4', `url=${encodeURIComponent(document.getElementById('param-url-ytmp4').value)}`, 'json-output-ytmp4', 'time-badge-ytmp4', 'Memproses downloader YTMP4...'); 
+}
+function executeTiktokApi() { 
+    fetchApi('/api/tiktok', `url=${encodeURIComponent(document.getElementById('param-url-tiktok').value)}`, 'json-output-tiktok', 'time-badge-tiktok', 'Memproses downloader TikTok...'); 
+}
+function executeFbApi() { 
+    fetchApi('/api/fb', `url=${encodeURIComponent(document.getElementById('param-url-fb').value)}`, 'json-output-fb', 'time-badge-fb', 'Memproses downloader Facebook...'); 
+}
+function executeTwitterApi() { 
+    fetchApi('/api/twitter', `url=${encodeURIComponent(document.getElementById('param-url-twitter').value)}`, 'json-output-twitter', 'time-badge-twitter', 'Memproses downloader Twitter...'); 
+}
+function executeMediafireApi() { 
+    fetchApi('/api/mediafire', `url=${encodeURIComponent(document.getElementById('param-url-mediafire').value)}`, 'json-output-mediafire', 'time-badge-mediafire', 'Memproses downloader MediaFire...'); 
+}
+function executeSpotifyApi() { 
+    fetchApi('/api/spotify', `url=${encodeURIComponent(document.getElementById('param-url-spotify').value)}`, 'json-output-spotify', 'time-badge-spotify', 'Memproses downloader Spotify...'); 
+}
+function executeThreadsApi() { 
+    fetchApi('/api/threads', `url=${encodeURIComponent(document.getElementById('param-url-threads').value)}`, 'json-output-threads', 'time-badge-threads', 'Memproses downloader Threads...'); 
+}
