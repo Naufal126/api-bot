@@ -91,7 +91,7 @@
                     <button onclick="toggleAccordion('cat-ai')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
                         <span class="text-[13px] font-black text-white tracking-wide">AI</span>
                         <span class="flex items-center gap-3">
-                            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full font-bold">1</span>
+                            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full font-bold">2</span>
                             <i id="icon-cat-ai" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
                         </span>
                     </button>
@@ -99,7 +99,14 @@
                         <div onclick="navigate('/docs/ai/claude', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
                             <div class="flex items-center gap-3">
                                 <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
-                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Claude AI (Anthropic)</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Claude AI</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                        <div onclick="navigate('/docs/ai/gemini', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Gemini AI</span>
                             </div>
                             <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
                         </div>
@@ -326,7 +333,88 @@
             </div>
         </section>
 
-        <!-- 3C. ENDPOINT DETAIL: INSTAGRAM DOWNLOADER -->
+        <!-- 3C. ENDPOINT DETAIL: GEMINI AI -->
+        <section id="view-endpoint-gemini" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
+            </button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">AI</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">Gemini AI</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Chatbot AI kecerdasan buatan dari Google Gemini 1.5 Flash untuk menjawab berbagai pertanyaan.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">text</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">Pertanyaan atau perintah untuk Gemini AI</p>
+                        <div>
+                            <input type="text" id="param-text-gemini" value="Halo, siapa kamu?" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-gemini" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-gemini', 'copy-url-btn-gemini')" id="copy-url-btn-gemini" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeGeminiApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-gemini" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-gemini', 'copy-btn-gemini')" id="copy-btn-gemini" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-gemini" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal apies",
+    "result": {
+        "message": "Halo! Saya adalah Gemini 1.5 Flash, ada yang bisa saya bantu hari ini?"
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3D. ENDPOINT DETAIL: INSTAGRAM DOWNLOADER -->
         <section id="view-endpoint-ig" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
             <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
                 <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
@@ -521,6 +609,13 @@
         }
         urlInputClaude.addEventListener('input', updateUrlDisplayClaude);
 
+        const urlInputGemini = document.getElementById('param-text-gemini');
+        const urlDisplayGemini = document.getElementById('api-url-display-gemini');
+        function updateUrlDisplayGemini() {
+            urlDisplayGemini.innerText = `${getBaseUrl()}/api/gemini?text=${encodeURIComponent(urlInputGemini.value)}`;
+        }
+        urlInputGemini.addEventListener('input', updateUrlDisplayGemini);
+
         const urlInputIg = document.getElementById('param-url-ig');
         const urlDisplayIg = document.getElementById('api-url-display-ig');
         function updateUrlDisplayIg() {
@@ -555,6 +650,9 @@
             } else if (path === '/docs/ai/claude') {
                 document.getElementById('view-endpoint-claude').classList.remove('hidden');
                 updateUrlDisplayClaude();
+            } else if (path === '/docs/ai/gemini') {
+                document.getElementById('view-endpoint-gemini').classList.remove('hidden');
+                updateUrlDisplayGemini();
             } else if (path === '/docs/downloader/ig') {
                 document.getElementById('view-endpoint-ig').classList.remove('hidden');
                 updateUrlDisplayIg();
@@ -607,6 +705,37 @@
             const startTime = performance.now(); 
             try {
                 const res = await fetch(`/api/claude?text=${encodeURIComponent(text)}`);
+                const data = await res.json();
+                const endTime = performance.now(); 
+
+                timeBadge.innerText = `${(endTime - startTime).toFixed(0)}ms`;
+                timeBadge.classList.remove('hidden');
+
+                if(data.status === false || res.status !== 200) {
+                    output.className = "text-[12px] font-mono text-red-400 leading-relaxed";
+                } else {
+                    output.className = "text-[12px] font-mono text-emerald-400 leading-relaxed";
+                }
+                output.innerText = JSON.stringify(data, null, 4);
+            } catch (e) { 
+                output.className = "text-[12px] font-mono text-red-400 leading-relaxed";
+                output.innerText = JSON.stringify({ status: false, message: "Server error" }, null, 4);
+            }
+        }
+
+        // --- EXECUTE GEMINI API ---
+        async function executeGeminiApi() {
+            const text = document.getElementById('param-text-gemini').value;
+            const output = document.getElementById('json-output-gemini');
+            const timeBadge = document.getElementById('time-badge-gemini');
+
+            timeBadge.classList.add('hidden');
+            output.className = "text-[12px] font-mono text-yellow-400 leading-relaxed";
+            output.innerText = JSON.stringify({ status: "processing", message: "Gemini is thinking..." }, null, 4);
+
+            const startTime = performance.now(); 
+            try {
+                const res = await fetch(`/api/gemini?text=${encodeURIComponent(text)}`);
                 const data = await res.json();
                 const endTime = performance.now(); 
 
