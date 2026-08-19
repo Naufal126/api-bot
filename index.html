@@ -4,412 +4,1423 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NAUFAL APIES - Documentation</title>
-    
-    <!-- CDN Tailwind & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- Memanggil CSS Eksternal -->
-    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #09090b; color: #e4e4e7; }
+        .bg-grid { background-size: 40px 40px; background-image: radial-gradient(circle, #18181b 1px, transparent 1px); }
+        .glass { background: rgba(24, 24, 27, 0.5); backdrop-filter: blur(12px); }
+        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-header { background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(39, 39, 42, 0.8); }
+        .url-scroll::-webkit-scrollbar { height: 4px; }
+        .url-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+    </style>
 </head>
 <body class="min-h-screen bg-zinc-950 bg-grid selection:bg-blue-500/30 flex flex-col">
 
-    <!-- HEADER -->
+    <!-- HEADER DENGAN LOGO & JAM DIGITAL -->
     <header class="glass-header sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('/', event)">
-            <div class="w-9 h-9 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold">
-                <i class="fa-solid fa-code text-sm"></i>
+        <a href="/" onclick="navigate('/', event)" class="flex items-center gap-3 group cursor-pointer">
+            <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
+                <span class="font-black text-white text-sm">N</span>
             </div>
-            <span class="font-extrabold text-lg tracking-wider text-white">NAUFAL <span class="text-blue-500">APIES</span></span>
-        </div>
+            <div class="leading-none flex items-center gap-1">
+                <span class="text-[14px] font-black tracking-wider text-white uppercase">NAUFAL</span>
+                <span class="text-[14px] font-black tracking-wider text-blue-500 uppercase">APIES</span>
+            </div>
+        </a>
 
-        <div class="hidden md:flex items-center gap-6">
-            <span id="clock-time" class="text-xs font-mono text-zinc-400 bg-zinc-900/80 px-3 py-1.5 rounded-lg border border-zinc-800">00:00:00 WIB</span>
-            <a href="#" onclick="navigate('/', event)" class="text-sm font-semibold text-zinc-300 hover:text-white transition">Home</a>
-            <a href="#" onclick="navigate('/docs', event)" class="text-sm font-semibold text-zinc-300 hover:text-white transition">Docs</a>
-        </div>
+        <nav class="flex items-center gap-5 text-xs font-bold text-zinc-400">
+            <div class="font-mono text-[11px] bg-zinc-900/80 px-3 py-1.5 rounded-lg text-blue-400 border border-zinc-800 flex items-center gap-2 shadow-inner hidden sm:flex">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                <span id="clock-time">00:00:00 WIB</span>
+            </div>
 
-        <button onclick="toggleMenu()" class="md:hidden text-zinc-300 text-xl focus:outline-none">
-            <i class="fa-solid fa-bars"></i>
-        </button>
+            <div class="relative">
+                <button onclick="toggleMenu()" id="menu-btn" class="w-9 h-9 flex items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900 text-white hover:bg-zinc-800 transition-colors">
+                    <i class="fa-solid fa-bars text-sm"></i>
+                </button>
+
+                <div id="dropdown-menu" class="hidden absolute right-0 mt-3 w-48 bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl py-1.5 z-50 fade-in">
+                    <button onclick="navigate('/', event); toggleMenu()" class="w-full text-left px-4 py-2.5 text-xs font-semibold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors flex items-center gap-3">
+                        <i class="fa-solid fa-house w-4 text-center"></i> Home
+                    </button>
+                    <button onclick="navigate('/webdev', event); toggleMenu()" class="w-full text-left px-4 py-2.5 text-xs font-semibold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors flex items-center gap-3">
+                        <i class="fa-solid fa-code w-4 text-center"></i> Project Dev
+                    </button>
+                    <button onclick="navigate('/contact', event); toggleMenu()" class="w-full text-left px-4 py-2.5 text-xs font-semibold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors flex items-center gap-3">
+                        <i class="fa-solid fa-envelope w-4 text-center"></i> Contact Dev
+                    </button>
+                </div>
+            </div>
+        </nav>
     </header>
 
-    <!-- DROPDOWN MENU MOBILE -->
-    <div id="dropdown-menu" class="hidden md:hidden glass-header px-6 py-4 flex flex-col gap-3 border-b border-zinc-800">
-        <a href="#" onclick="navigate('/', event); toggleMenu();" class="text-sm font-semibold text-zinc-300 hover:text-white py-1">Home</a>
-        <a href="#" onclick="navigate('/docs', event); toggleMenu();" class="text-sm font-semibold text-zinc-300 hover:text-white py-1">Docs</a>
-    </div>
-
     <main class="w-full flex-grow flex flex-col">
-
         <!-- 1. HOME VIEW -->
-        <section id="view-home" class="view-page fade-in flex-grow flex items-center justify-center p-6">
-            <div class="max-w-2xl text-center space-y-6">
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium">
-                    <i class="fa-solid fa-bolt"></i> Fast & Reliable REST API
+        <section id="view-home" class="view-page hidden fade-in flex-grow flex items-center justify-center p-6">
+            <div class="text-center space-y-6 -mt-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium">
+                    <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span></span>
+                    SYSTEM ONLINE
                 </div>
-                <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white">
-                    Integrasi API Mudah & <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Tanpa Ribet</span>
-                </h1>
-                <p class="text-zinc-400 text-sm md:text-base max-w-lg mx-auto">
-                    Layanan REST API siap pakai untuk AI, Downloader, dan Shortlink Bypass dengan respon JSON super cepat.
-                </p>
-                <div class="flex items-center justify-center gap-4 pt-2">
-                    <button onclick="navigate('/docs', event)" class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm transition shadow-lg shadow-blue-600/20">
-                        Mulai Dokumentasi <i class="fa-solid fa-arrow-right ml-1"></i>
-                    </button>
-                </div>
+                <h1 class="text-5xl md:text-7xl font-black text-white tracking-tighter">NAUFAL<span class="text-blue-500">APIES</span></h1>
+                <p class="text-zinc-400 max-w-lg mx-auto leading-relaxed">Platform API modern untuk kebutuhan integrasi digital kamu. Cepat, stabil, dan mudah digunakan.</p>
+                <button onclick="navigate('/docs', event)" class="group bg-white hover:bg-zinc-200 text-black px-8 py-3 rounded-xl font-bold transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto">
+                    Explore Docs <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </button>
             </div>
         </section>
 
-        <!-- 2. DOCS CATEGORIES VIEW -->
+        <!-- 2. DOCS VIEW -->
         <section id="view-docs" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <h2 class="text-2xl font-bold text-white mb-2">Dokumentasi API</h2>
-            <p class="text-zinc-400 text-xs mb-6">Pilih kategori endpoint yang ingin kamu gunakan.</p>
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-white tracking-tight">API Categories</h2>
+                <p class="text-xs text-zinc-400 mt-1">Pilih kategori API yang ingin kamu gunakan</p>
+            </div>
 
-            <div class="space-y-4">
-                <!-- Category: Bypass -->
-                <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl overflow-hidden">
-                    <button onclick="toggleAccordion('cat-bypass')" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-zinc-800/40 transition">
-                        <span class="font-bold text-sm text-zinc-200"><i class="fa-solid fa-link text-blue-400 mr-2"></i> Shortlink Bypass</span>
-                        <i id="icon-cat-bypass" class="fa-solid fa-chevron-right text-xs text-zinc-500 transition-transform duration-200"></i>
-                    </button>
-                    <div id="cat-bypass" class="hidden px-5 pb-4 space-y-2 border-t border-zinc-800/50 pt-3">
-                        <a href="#" onclick="navigate('/docs/bypass/ouo', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-blue-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">Ouo.io Bypass</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
-                    </div>
-                </div>
-
+            <div class="space-y-3">
                 <!-- Category: AI -->
-                <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl overflow-hidden">
-                    <button onclick="toggleAccordion('cat-ai')" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-zinc-800/40 transition">
-                        <span class="font-bold text-sm text-zinc-200"><i class="fa-solid fa-robot text-indigo-400 mr-2"></i> Artificial Intelligence</span>
-                        <i id="icon-cat-ai" class="fa-solid fa-chevron-right text-xs text-zinc-500 transition-transform duration-200"></i>
+                <div>
+                    <button onclick="toggleAccordion('cat-ai')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
+                        <span class="text-[13px] font-black text-white tracking-wide">AI</span>
+                        <span class="flex items-center gap-3">
+                            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full font-bold">2</span>
+                            <i id="icon-cat-ai" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
+                        </span>
                     </button>
-                    <div id="cat-ai" class="hidden px-5 pb-4 space-y-2 border-t border-zinc-800/50 pt-3">
-                        <a href="#" onclick="navigate('/docs/ai/claude', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-indigo-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">Claude AI</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
-                        <a href="#" onclick="navigate('/docs/ai/gemini', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-indigo-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">Gemini AI</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
+                    <div id="cat-ai" class="hidden mt-2 space-y-2 px-2">
+                        <div onclick="navigate('/docs/ai/claude', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Claude AI</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                        <div onclick="navigate('/docs/ai/gemini', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Gemini AI</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Category: Downloader -->
-                <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl overflow-hidden">
-                    <button onclick="toggleAccordion('cat-downloader')" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-zinc-800/40 transition">
-                        <span class="font-bold text-sm text-zinc-200"><i class="fa-solid fa-download text-emerald-400 mr-2"></i> Media Downloader</span>
-                        <i id="icon-cat-downloader" class="fa-solid fa-chevron-right text-xs text-zinc-500 transition-transform duration-200"></i>
+                <!-- Category: DOWNLOADER -->
+                <div>
+                    <button onclick="toggleAccordion('cat-downloader')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
+                        <span class="text-[13px] font-black text-white tracking-wide">DOWNLOADER</span>
+                        <span class="flex items-center gap-3">
+                            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full font-bold">9</span>
+                            <i id="icon-cat-downloader" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
+                        </span>
                     </button>
-                    <div id="cat-downloader" class="hidden px-5 pb-4 space-y-2 border-t border-zinc-800/50 pt-3">
-                        <a href="#" onclick="navigate('/docs/downloader/ig', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-emerald-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">Instagram Downloader</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
-                        <a href="#" onclick="navigate('/docs/downloader/ytmp3', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-emerald-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">YouTube MP3</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
-                        <a href="#" onclick="navigate('/docs/downloader/ytmp4', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-emerald-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">YouTube MP4</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
-                        <a href="#" onclick="navigate('/docs/downloader/tiktok', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-emerald-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">TikTok Downloader</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
-                        <a href="#" onclick="navigate('/docs/downloader/fb', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-emerald-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">Facebook Downloader</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
-                        <a href="#" onclick="navigate('/docs/downloader/twitter', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-emerald-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">Twitter Downloader</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
-                        <a href="#" onclick="navigate('/docs/downloader/mediafire', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-emerald-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">MediaFire Downloader</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
-                        <a href="#" onclick="navigate('/docs/downloader/spotify', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-emerald-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">Spotify Downloader</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
-                        <a href="#" onclick="navigate('/docs/downloader/threads', event)" class="block p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-emerald-500/40 transition flex items-center justify-between">
-                            <span class="text-xs font-semibold text-zinc-300">Threads Downloader</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                        </a>
+                    <div id="cat-downloader" class="hidden mt-2 space-y-2 px-2">
+                        <div onclick="navigate('/docs/downloader/ig', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Instagram Downloader</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                        <div onclick="navigate('/docs/downloader/ytmp3', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">YouTube MP3 Downloader</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                        <div onclick="navigate('/docs/downloader/ytmp4', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">YouTube MP4 Downloader</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                        <div onclick="navigate('/docs/downloader/tiktok', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">TikTok Downloader</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                        <div onclick="navigate('/docs/downloader/fb', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Facebook Downloader</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                        <div onclick="navigate('/docs/downloader/twitter', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Twitter / X Downloader</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                        <div onclick="navigate('/docs/downloader/mediafire', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">MediaFire Downloader</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                        <div onclick="navigate('/docs/downloader/spotify', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Spotify Downloader</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                        <div onclick="navigate('/docs/downloader/threads', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Threads Downloader</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Category: SEARCH -->
+                <div>
+                    <button onclick="toggleAccordion('cat-search')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
+                        <span class="text-[13px] font-black text-white tracking-wide">SEARCH</span>
+                        <span class="flex items-center gap-3">
+                            <span class="bg-zinc-800 text-[10px] px-2 py-0.5 rounded-full text-zinc-500 font-medium">0</span>
+                            <i id="icon-cat-search" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
+                        </span>
+                    </button>
+                    <div id="cat-search" class="hidden mt-2 px-2">
+                        <div class="bg-zinc-900/40 border border-zinc-800/50 p-4 rounded-lg text-center text-xs text-zinc-500 italic">
+                            Belum ada endpoint tersedia
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category: BYPASS -->
+                <div>
+                    <button onclick="toggleAccordion('cat-bypass')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
+                        <span class="text-[13px] font-black text-white tracking-wide">BYPASS</span>
+                        <span class="flex items-center gap-3">
+                            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full font-bold">1</span>
+                            <i id="icon-cat-bypass" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
+                        </span>
+                    </button>
+                    <div id="cat-bypass" class="hidden mt-2 space-y-2 px-2">
+                        <div onclick="navigate('/docs/bypass/ouo', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
+                                <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">Ouo.io Bypasser</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- 3. ENDPOINT DETAILS SECTIONS -->
-
-        <!-- Ouo Bypass -->
+        <!-- 3A. ENDPOINT DETAIL: OUO BYPASS -->
         <section id="view-endpoint-ouo" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">Ouo.io Bypass</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-ouo" class="text-xs font-mono text-blue-400 truncate flex-1">/api/bypass/ouo?url=https://ouo.io/example</span>
-                        <button id="btn-copy-ouo" onclick="copyApiUrl('url-ouo', 'btn-copy-ouo')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">BYPASS</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">Ouo Bypasser</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Dapatkan link asli secara otomatis dari Shortlink Ouo.io tanpa captcha.</p>
                     </div>
                 </div>
-                <button onclick="executeOuoApi()" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">url</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">URL target Ouo yang ingin di-bypass</p>
+                        <div>
+                            <input type="text" id="param-url" value="https://ouo.io/1GkFdx" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display', 'copy-url-btn-ouo')" id="copy-url-btn-ouo" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeOuoApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-ouo" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-ouo', 'copy-btn-ouo')" id="copy-btn-ouo" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-ouo" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": {
+        "original_url": "https://ouo.io/1GkFdx",
+        "bypassed_url": "https://example.com/target-link"
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Claude AI -->
+        <!-- 3B. ENDPOINT DETAIL: CLAUDE AI -->
         <section id="view-endpoint-claude" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">Claude AI</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-claude" class="text-xs font-mono text-indigo-400 truncate flex-1">/api/ai/claude?text=Halo</span>
-                        <button id="btn-copy-claude" onclick="copyApiUrl('url-claude', 'btn-copy-claude')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">AI</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">Claude AI</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Chatbot AI dengan model Claude yang merespons secara natural dan jelas.</p>
                     </div>
                 </div>
-                <button onclick="executeClaudeApi()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">text</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">Pertanyaan atau perintah untuk Claude</p>
+                        <div>
+                            <input type="text" id="param-text-claude" value="Halo, siapa kamu?" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-claude" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-claude', 'copy-url-btn-claude')" id="copy-url-btn-claude" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeClaudeApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-claude" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-claude', 'copy-btn-claude')" id="copy-btn-claude" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-claude" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": "Halo! Saya adalah Claude..."
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Gemini AI -->
+        <!-- 3C. ENDPOINT DETAIL: GEMINI AI -->
         <section id="view-endpoint-gemini" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">Gemini AI</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-gemini" class="text-xs font-mono text-indigo-400 truncate flex-1">/api/ai/gemini?text=Halo</span>
-                        <button id="btn-copy-gemini" onclick="copyApiUrl('url-gemini', 'btn-copy-gemini')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">AI</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">Gemini AI</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Chatbot AI kecerdasan buatan dari Google Gemini untuk menjawab berbagai pertanyaan.</p>
                     </div>
                 </div>
-                <button onclick="executeGeminiApi()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">text</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">Pertanyaan atau perintah untuk Gemini AI</p>
+                        <div>
+                            <input type="text" id="param-text-gemini" value="Halo, siapa kamu?" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-gemini" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-gemini', 'copy-url-btn-gemini')" id="copy-url-btn-gemini" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeGeminiApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-gemini" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-gemini', 'copy-btn-gemini')" id="copy-btn-gemini" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-gemini" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal apies",
+    "result": {
+        "message": "Halo! Saya adalah Gemini, ada yang bisa saya bantu hari ini?"
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Instagram Downloader -->
+        <!-- 3D. ENDPOINT DETAIL: INSTAGRAM DOWNLOADER -->
         <section id="view-endpoint-ig" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">Instagram Downloader</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-ig" class="text-xs font-mono text-emerald-400 truncate flex-1">/api/download/ig?url=https://instagram.com/reel/xxx</span>
-                        <button id="btn-copy-ig" onclick="copyApiUrl('url-ig', 'btn-copy-ig')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">DOWNLOADER</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">Instagram Downloader</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Unduh foto, video, Reels, maupun Carousel dari Instagram dengan mudah menggunakan URL postingan.</p>
                     </div>
                 </div>
-                <button onclick="executeIgApi()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">url</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">URL link media Instagram (Post/Reels/TV)</p>
+                        <div>
+                            <input type="text" id="param-url-ig" value="https://www.instagram.com/p/C3xX2x_v1Xx/" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-ig" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-ig', 'copy-url-btn-ig')" id="copy-url-btn-ig" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeIgApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-ig" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-ig', 'copy-btn-ig')" id="copy-btn-ig" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-ig" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": [
+        "https://instagram.fcdn.net/v/t51..."
+    ]
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- YouTube MP3 -->
+        <!-- 3E. ENDPOINT DETAIL: YOUTUBE MP3 -->
         <section id="view-endpoint-ytmp3" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">YouTube MP3 Downloader</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-ytmp3" class="text-xs font-mono text-emerald-400 truncate flex-1">/api/download/ytmp3?url=https://youtube.com/watch?v=xxx</span>
-                        <button id="btn-copy-ytmp3" onclick="copyApiUrl('url-ytmp3', 'btn-copy-ytmp3')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">DOWNLOADER</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">YouTube MP3 Downloader</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Ekstrak dan unduh lagu audio MP3 langsung dari video YouTube.</p>
                     </div>
                 </div>
-                <button onclick="executeYtmp3Api()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">url</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">URL link video YouTube yang ingin diunduh audionya</p>
+                        <div>
+                            <input type="text" id="param-url-ytmp3" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-ytmp3" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-ytmp3', 'copy-url-btn-ytmp3')" id="copy-url-btn-ytmp3" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeYtmp3Api()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-ytmp3" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-ytmp3', 'copy-btn-ytmp3')" id="copy-btn-ytmp3" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-ytmp3" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": {
+        "title": "Rick Astley - Never Gonna Give You Up",
+        "thumbnail": "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+        "duration": "03:33",
+        "dl_url": "https://..."
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- YouTube MP4 -->
+        <!-- 3F. ENDPOINT DETAIL: YOUTUBE MP4 -->
         <section id="view-endpoint-ytmp4" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">YouTube MP4 Downloader</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-ytmp4" class="text-xs font-mono text-emerald-400 truncate flex-1">/api/download/ytmp4?url=https://youtube.com/watch?v=xxx</span>
-                        <button id="btn-copy-ytmp4" onclick="copyApiUrl('url-ytmp4', 'btn-copy-ytmp4')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">DOWNLOADER</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">YouTube MP4 Downloader</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Unduh video YouTube dalam resolusi tinggi beserta pilihan kualitasnya.</p>
                     </div>
                 </div>
-                <button onclick="executeYtmp4Api()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">url</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">URL link video YouTube</p>
+                        <div>
+                            <input type="text" id="param-url-ytmp4" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-ytmp4" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-ytmp4', 'copy-url-btn-ytmp4')" id="copy-url-btn-ytmp4" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeYtmp4Api()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-ytmp4" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-ytmp4', 'copy-btn-ytmp4')" id="copy-btn-ytmp4" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-ytmp4" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": {
+        "title": "Rick Astley - Never Gonna Give You Up",
+        "thumbnail": "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+        "duration": "03:33",
+        "url": [
+            { "quality": "720p", "url": "https://..." },
+            { "quality": "360p", "url": "https://..." }
+        ]
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- TikTok Downloader -->
+        <!-- 3G. ENDPOINT DETAIL: TIKTOK DOWNLOADER -->
         <section id="view-endpoint-tiktok" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">TikTok Downloader</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-tiktok" class="text-xs font-mono text-emerald-400 truncate flex-1">/api/download/tiktok?url=https://tiktok.com/@user/video/xxx</span>
-                        <button id="btn-copy-tiktok" onclick="copyApiUrl('url-tiktok', 'btn-copy-tiktok')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">DOWNLOADER</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">TikTok Downloader</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Unduh video TikTok tanpa watermark (No Watermark) beserta file MP3-nya.</p>
                     </div>
                 </div>
-                <button onclick="executeTiktokApi()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">url</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">URL link video TikTok</p>
+                        <div>
+                            <input type="text" id="param-url-tiktok" value="https://vt.tiktok.com/ZSVSW5kAA/" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-tiktok" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-tiktok', 'copy-url-btn-tiktok')" id="copy-url-btn-tiktok" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeTiktokApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-tiktok" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-tiktok', 'copy-btn-tiktok')" id="copy-btn-tiktok" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-tiktok" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": {
+        "title": "Caption TikTok...",
+        "thumbnail": "https://...",
+        "url": [
+            { "quality": "nowatermark", "url": "https://..." },
+            { "quality": "audio", "url": "https://..." }
+        ]
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Facebook Downloader -->
+        <!-- 3H. ENDPOINT DETAIL: FACEBOOK DOWNLOADER -->
         <section id="view-endpoint-fb" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">Facebook Downloader</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-fb" class="text-xs font-mono text-emerald-400 truncate flex-1">/api/download/fb?url=https://facebook.com/watch?v=xxx</span>
-                        <button id="btn-copy-fb" onclick="copyApiUrl('url-fb', 'btn-copy-fb')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">DOWNLOADER</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">Facebook Downloader</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Unduh video Facebook publik dengan kualitas HD dan SD.</p>
                     </div>
                 </div>
-                <button onclick="executeFbApi()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">url</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">URL link video Facebook</p>
+                        <div>
+                            <input type="text" id="param-url-fb" value="https://www.facebook.com/watch/?v=123456789" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-fb" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-fb', 'copy-url-btn-fb')" id="copy-url-btn-fb" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeFbApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-fb" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-fb', 'copy-btn-fb')" id="copy-btn-fb" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-fb" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": {
+        "title": "Facebook Video",
+        "sd": "https://...",
+        "hd": "https://..."
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Twitter Downloader -->
+        <!-- 3I. ENDPOINT DETAIL: TWITTER / X DOWNLOADER -->
         <section id="view-endpoint-twitter" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">Twitter / X Downloader</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-twitter" class="text-xs font-mono text-emerald-400 truncate flex-1">/api/download/twitter?url=https://x.com/user/status/xxx</span>
-                        <button id="btn-copy-twitter" onclick="copyApiUrl('url-twitter', 'btn-copy-twitter')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">DOWNLOADER</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">Twitter / X Downloader</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Unduh video dan gambar HD dari postingan Twitter/X.</p>
                     </div>
                 </div>
-                <button onclick="executeTwitterApi()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">url</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">URL link Tweet / X</p>
+                        <div>
+                            <input type="text" id="param-url-twitter" value="https://x.com/user/status/123456789" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-twitter" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-twitter', 'copy-url-btn-twitter')" id="copy-url-btn-twitter" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeTwitterApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-twitter" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-twitter', 'copy-btn-twitter')" id="copy-btn-twitter" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-twitter" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": {
+        "desc": "Tweet description",
+        "url": [
+            "https://video.twimg.com/..."
+        ]
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- MediaFire Downloader -->
+        <!-- 3J. ENDPOINT DETAIL: MEDIAFIRE DOWNLOADER -->
         <section id="view-endpoint-mediafire" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">MediaFire Downloader</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-mediafire" class="text-xs font-mono text-emerald-400 truncate flex-1">/api/download/mediafire?url=https://mediafire.com/file/xxx</span>
-                        <button id="btn-copy-mediafire" onclick="copyApiUrl('url-mediafire', 'btn-copy-mediafire')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">DOWNLOADER</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">MediaFire Downloader</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Dapatkan direct download link, nama file, ukuran, serta tipe berkas dari URL MediaFire.</p>
                     </div>
                 </div>
-                <button onclick="executeMediafireApi()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">url</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">URL link berkas MediaFire</p>
+                        <div>
+                            <input type="text" id="param-url-mediafire" value="https://www.mediafire.com/file/example/file.zip" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-mediafire" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-mediafire', 'copy-url-btn-mediafire')" id="copy-url-btn-mediafire" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeMediafireApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-mediafire" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-mediafire', 'copy-btn-mediafire')" id="copy-btn-mediafire" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-mediafire" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": {
+        "filename": "file.zip",
+        "filesize": "15.4 MB",
+        "ext": "zip",
+        "url": "https://download..."
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Spotify Downloader -->
+        <!-- 3K. ENDPOINT DETAIL: SPOTIFY DOWNLOADER -->
         <section id="view-endpoint-spotify" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">Spotify Downloader</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-spotify" class="text-xs font-mono text-emerald-400 truncate flex-1">/api/download/spotify?url=https://open.spotify.com/track/xxx</span>
-                        <button id="btn-copy-spotify" onclick="copyApiUrl('url-spotify', 'btn-copy-spotify')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">DOWNLOADER</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">Spotify Downloader</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Unduh musik lagu Spotify lengkap dengan penutup sampul (cover album) dan metadata.</p>
                     </div>
                 </div>
-                <button onclick="executeSpotifyApi()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">url</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">URL link lagu Spotify</p>
+                        <div>
+                            <input type="text" id="param-url-spotify" value="https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-spotify" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-spotify', 'copy-url-btn-spotify')" id="copy-url-btn-spotify" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeSpotifyApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-spotify" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-spotify', 'copy-btn-spotify')" id="copy-btn-spotify" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-spotify" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": {
+        "title": "Track Title",
+        "artist": "Artist Name",
+        "thumbnail": "https://...",
+        "url": "https://..."
+    }
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Threads Downloader -->
+        <!-- 3L. ENDPOINT DETAIL: THREADS DOWNLOADER -->
         <section id="view-endpoint-threads" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8">
-            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Categories
+            <button onclick="navigate('/docs', event)" class="text-xs font-bold text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Kembali ke Categories
             </button>
-            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-white">Threads Downloader</h3>
-                    <span class="text-xs font-bold px-2.5 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">GET</span>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-semibold text-zinc-400">Endpoint URL</label>
-                    <div class="flex items-center gap-2 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-                        <span id="url-threads" class="text-xs font-mono text-emerald-400 truncate flex-1">/api/download/threads?url=https://threads.net/xxx</span>
-                        <button id="btn-copy-threads" onclick="copyApiUrl('url-threads', 'btn-copy-threads')" class="text-zinc-400 hover:text-white px-2 py-1"><i class="fa-regular fa-copy text-xs"></i></button>
+
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">DOWNLOADER</span>
+                        <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight">Threads Downloader</h2>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Unduh media berupa foto dan video dari postingan Threads Meta.</p>
                     </div>
                 </div>
-                <button onclick="executeThreadsApi()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Test Endpoint</button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono font-bold text-white">url</span>
+                            <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">URL link postingan Threads</p>
+                        <div>
+                            <input type="text" id="param-url-threads" value="https://www.threads.net/@user/post/example" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+
+                            <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                    <span id="api-url-display-threads" class="text-[10px] text-zinc-400 font-mono"></span>
+                                </div>
+                                <button onclick="copyApiUrl('api-url-display-threads', 'copy-url-btn-threads')" id="copy-url-btn-threads" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                    <i class="fa-regular fa-copy text-[12px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="executeThreadsApi()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-play text-[10px]"></i> TRY API
+                </button>
+
+                <div class="space-y-3 pt-2 border-t border-zinc-800/60">
+                    <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Response</h3>
+                    <div class="rounded-xl overflow-hidden border border-zinc-800 shadow-xl">
+                        <div class="bg-zinc-900 px-4 py-2.5 flex items-center justify-between border-b border-zinc-800">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                </div>
+                                <span class="text-[11px] font-mono text-zinc-400 ml-2">RESPONSE.JSON</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="time-badge-threads" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-threads', 'copy-btn-threads')" id="copy-btn-threads" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                    <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
+                            <pre id="json-output-threads" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+    "status": true,
+    "creator": "Naufal Apies",
+    "result": [
+        "https://..."
+    ]
+}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
+        <!-- 4. PAGE PROJECT DEV (/webdev) -->
+        <section id="view-webdev" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8 flex-grow flex flex-col justify-center">
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-8 text-center space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center mx-auto text-xl border border-blue-500/20">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <h2 class="text-2xl font-black text-white">Project Dev / Webdev</h2>
+                <p class="text-xs text-zinc-400 max-w-md mx-auto leading-relaxed">Halaman ini digunakan untuk menampilkan portofolio dan proyek web pengembangan dari Naufal Apies.</p>
+                <button onclick="navigate('/docs', event)" class="bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition-colors inline-flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Docs
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. PAGE CONTACT DEV (/contact) -->
+        <section id="view-contact" class="view-page hidden fade-in max-w-3xl mx-auto w-full px-4 py-8 flex-grow flex flex-col justify-center">
+            <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-8 text-center space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center mx-auto text-xl border border-blue-500/20">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <h2 class="text-2xl font-black text-white">Contact Developer</h2>
+                <p class="text-xs text-zinc-400 max-w-md mx-auto leading-relaxed">Punya pertanyaan, kendala API, atau ingin bekerja sama? Hubungi Developer secara langsung.</p>
+                <div class="pt-2 flex justify-center gap-3">
+                    <a href="https://wa.me/" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors inline-flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                    </a>
+                    <button onclick="navigate('/docs', event)" class="bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors">
+                        Kembali ke Docs
+                    </button>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-zinc-900 py-6 text-center text-xs text-zinc-500">
-        &copy; NAUFAL APIES. All rights reserved.
-    </footer>
+    <script>
+        // --- SCRIPT JAM DIGITAL ---
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('clock-time').innerText = timeString + " WIB";
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
-    <!-- Memanggil Script Eksternal -->
-    <script src="script.js"></script>
+        // --- SCRIPT TOGGLE DROPDOWN MENU ---
+        function toggleMenu() {
+            const menu = document.getElementById('dropdown-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdown-menu');
+            const btn = document.getElementById('menu-btn');
+            if (!menu.contains(event.target) && !btn.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+
+        // --- ACCORDION TOGGLE ---
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(90deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // --- COPY JSON RESPONSE ---
+        function copyResponse(elementId, btnId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text);
+            const btn = document.getElementById(btnId);
+            btn.innerHTML = `<i class="fa-solid fa-check text-xs text-emerald-400"></i> <span class="text-emerald-400">Copied!</span>`;
+            setTimeout(() => {
+                btn.innerHTML = `<i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>`;
+            }, 2000);
+        }
+
+        // --- COPY API URL ---
+        function copyApiUrl(elementId, btnId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text);
+            const btn = document.getElementById(btnId);
+            const originalIcon = `<i class="fa-regular fa-copy text-[12px]"></i>`;
+            btn.innerHTML = `<i class="fa-solid fa-check text-[12px] text-emerald-400"></i>`;
+            setTimeout(() => {
+                btn.innerHTML = originalIcon;
+            }, 2000);
+        }
+
+        // --- DYNAMIC API URL DISPLAY ---
+        const getBaseUrl = () => 'https://api.naufal.fun';
+
+        function setupUrlDisplay(inputId, displayId, endpointPath) {
+            const input = document.getElementById(inputId);
+            const display = document.getElementById(displayId);
+            if (!input || !display) return;
+            const update = () => {
+                display.innerText = `${getBaseUrl()}${endpointPath}${encodeURIComponent(input.value)}`;
+            };
+            input.addEventListener('input', update);
+            update();
+        }
+
+        setupUrlDisplay('param-url', 'api-url-display', '/api/bypass?url=');
+        setupUrlDisplay('param-text-claude', 'api-url-display-claude', '/api/claude?text=');
+        setupUrlDisplay('param-text-gemini', 'api-url-display-gemini', '/api/gemini?text=');
+        setupUrlDisplay('param-url-ig', 'api-url-display-ig', '/api/ig?url=');
+        setupUrlDisplay('param-url-ytmp3', 'api-url-display-ytmp3', '/api/ytmp3?url=');
+        setupUrlDisplay('param-url-ytmp4', 'api-url-display-ytmp4', '/api/ytmp4?url=');
+        setupUrlDisplay('param-url-tiktok', 'api-url-display-tiktok', '/api/tiktok?url=');
+        setupUrlDisplay('param-url-fb', 'api-url-display-fb', '/api/fb?url=');
+        setupUrlDisplay('param-url-twitter', 'api-url-display-twitter', '/api/twitter?url=');
+        setupUrlDisplay('param-url-mediafire', 'api-url-display-mediafire', '/api/mediafire?url=');
+        setupUrlDisplay('param-url-spotify', 'api-url-display-spotify', '/api/spotify?url=');
+        setupUrlDisplay('param-url-threads', 'api-url-display-threads', '/api/threads?url=');
+
+        // --- ROUTING ---
+        function navigate(path, event) { 
+            if (event) event.preventDefault(); 
+            window.history.pushState({}, '', path); 
+            handleRoute(); 
+        }
+        window.addEventListener('popstate', handleRoute);
+
+        function handleRoute() {
+            const path = window.location.pathname.replace(/\/$/, '') || '/';
+            document.querySelectorAll('.view-page').forEach(el => el.classList.add('hidden'));
+
+            const routes = {
+                '/': 'view-home',
+                '/docs': 'view-docs',
+                '/webdev': 'view-webdev',
+                '/contact': 'view-contact',
+                '/docs/bypass/ouo': 'view-endpoint-ouo',
+                '/docs/ai/claude': 'view-endpoint-claude',
+                '/docs/ai/gemini': 'view-endpoint-gemini',
+                '/docs/downloader/ig': 'view-endpoint-ig',
+                '/docs/downloader/ytmp3': 'view-endpoint-ytmp3',
+                '/docs/downloader/ytmp4': 'view-endpoint-ytmp4',
+                '/docs/downloader/tiktok': 'view-endpoint-tiktok',
+                '/docs/downloader/fb': 'view-endpoint-fb',
+                '/docs/downloader/twitter': 'view-endpoint-twitter',
+                '/docs/downloader/mediafire': 'view-endpoint-mediafire',
+                '/docs/downloader/spotify': 'view-endpoint-spotify',
+                '/docs/downloader/threads': 'view-endpoint-threads'
+            };
+
+            const targetId = routes[path] || 'view-home';
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) targetEl.classList.remove('hidden');
+        }
+
+        // --- HELPER UNTUK EXECUTE API ---
+        async function fetchApi(endpoint, paramValue, outputId, timeBadgeId, procMsg) {
+            const output = document.getElementById(outputId);
+            const timeBadge = document.getElementById(timeBadgeId);
+
+            timeBadge.classList.add('hidden'); 
+            output.className = "text-[12px] font-mono text-yellow-400 leading-relaxed";
+            output.innerText = JSON.stringify({ status: "processing", message: procMsg }, null, 4);
+
+            const startTime = performance.now(); 
+            try {
+                const res = await fetch(`${endpoint}?${paramValue}`);
+                const data = await res.json();
+                const endTime = performance.now(); 
+
+                timeBadge.innerText = `${(endTime - startTime).toFixed(0)}ms`;
+                timeBadge.classList.remove('hidden');
+
+                if (data.status === false || res.status !== 200) {
+                    output.className = "text-[12px] font-mono text-red-400 leading-relaxed";
+                } else {
+                    output.className = "text-[12px] font-mono text-emerald-400 leading-relaxed";
+                }
+                output.innerText = JSON.stringify(data, null, 4);
+            } catch (e) { 
+                output.className = "text-[12px] font-mono text-red-400 leading-relaxed";
+                output.innerText = JSON.stringify({ status: false, message: "Server error" }, null, 4);
+            }
+        }
+
+        function executeOuoApi() { fetchApi('/api/bypass', `url=${encodeURIComponent(document.getElementById('param-url').value)}`, 'json-output-ouo', 'time-badge-ouo', 'Fetching data...'); }
+        function executeClaudeApi() { fetchApi('/api/claude', `text=${encodeURIComponent(document.getElementById('param-text-claude').value)}`, 'json-output-claude', 'time-badge-claude', 'AI is thinking...'); }
+        function executeGeminiApi() { fetchApi('/api/gemini', `text=${encodeURIComponent(document.getElementById('param-text-gemini').value)}`, 'json-output-gemini', 'time-badge-gemini', 'Gemini is thinking...'); }
+        function executeIgApi() { fetchApi('/api/ig', `url=${encodeURIComponent(document.getElementById('param-url-ig').value)}`, 'json-output-ig', 'time-badge-ig', 'Fetching Instagram media...'); }
+        function executeYtmp3Api() { fetchApi('/api/ytmp3', `url=${encodeURIComponent(document.getElementById('param-url-ytmp3').value)}`, 'json-output-ytmp3', 'time-badge-ytmp3', 'Extracting MP3 audio...'); }
+        function executeYtmp4Api() { fetchApi('/api/ytmp4', `url=${encodeURIComponent(document.getElementById('param-url-ytmp4').value)}`, 'json-output-ytmp4', 'time-badge-ytmp4', 'Fetching YouTube video...'); }
+        function executeTiktokApi() { fetchApi('/api/tiktok', `url=${encodeURIComponent(document.getElementById('param-url-tiktok').value)}`, 'json-output-tiktok', 'time-badge-tiktok', 'Fetching TikTok media...'); }
+        function executeFbApi() { fetchApi('/api/fb', `url=${encodeURIComponent(document.getElementById('param-url-fb').value)}`, 'json-output-fb', 'time-badge-fb', 'Fetching Facebook media...'); }
+        function executeTwitterApi() { fetchApi('/api/twitter', `url=${encodeURIComponent(document.getElementById('param-url-twitter').value)}`, 'json-output-twitter', 'time-badge-twitter', 'Fetching Twitter media...'); }
+        function executeMediafireApi() { fetchApi('/api/mediafire', `url=${encodeURIComponent(document.getElementById('param-url-mediafire').value)}`, 'json-output-mediafire', 'time-badge-mediafire', 'Parsing MediaFire file...'); }
+        function executeSpotifyApi() { fetchApi('/api/spotify', `url=${encodeURIComponent(document.getElementById('param-url-spotify').value)}`, 'json-output-spotify', 'time-badge-spotify', 'Fetching Spotify audio...'); }
+        function executeThreadsApi() { fetchApi('/api/threads', `url=${encodeURIComponent(document.getElementById('param-url-threads').value)}`, 'json-output-threads', 'time-badge-threads', 'Fetching Threads media...'); }
+
+        handleRoute();
+    </script>
 </body>
 </html>
