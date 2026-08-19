@@ -63,7 +63,13 @@ const getBaseUrl = () => 'https://api.naufal.fun';
 function setupUrlDisplay(inputId, displayId, endpointPath) {
     const input = document.getElementById(inputId);
     const display = document.getElementById(displayId);
-    if (!input || !display) return;
+    if (!display) return;
+    
+    if (!input) {
+        display.innerText = `${getBaseUrl()}${endpointPath}`;
+        return;
+    }
+
     const update = () => {
         display.innerText = `${getBaseUrl()}${endpointPath}${encodeURIComponent(input.value)}`;
     };
@@ -71,6 +77,7 @@ function setupUrlDisplay(inputId, displayId, endpointPath) {
     update();
 }
 
+// Setup Display URL Existing
 setupUrlDisplay('param-url', 'api-url-display', '/api/bypass?url=');
 setupUrlDisplay('param-text-claude', 'api-url-display-claude', '/api/claude?text=');
 setupUrlDisplay('param-text-gemini', 'api-url-display-gemini', '/api/gemini?text=');
@@ -83,6 +90,13 @@ setupUrlDisplay('param-url-twitter', 'api-url-display-twitter', '/api/twitter?ur
 setupUrlDisplay('param-url-mediafire', 'api-url-display-mediafire', '/api/mediafire?url=');
 setupUrlDisplay('param-url-spotify', 'api-url-display-spotify', '/api/spotify?url=');
 setupUrlDisplay('param-url-threads', 'api-url-display-threads', '/api/threads?url=');
+
+// Setup Display URL Fitur Baru (Search)
+setupUrlDisplay('param-query-pinterest', 'api-url-display-pinterest', '/api/pinterest?query=');
+setupUrlDisplay('param-query-lk21-search', 'api-url-display-lk21-search', '/api/lk21/search?query=');
+setupUrlDisplay('param-url-lk21-detail', 'api-url-display-lk21-detail', '/api/lk21/detail?url=');
+setupUrlDisplay(null, 'api-url-display-lk21-trending', '/api/lk21/trending');
+setupUrlDisplay('param-url-lk21-stream', 'api-url-display-lk21-stream', '/api/lk21/stream?url=');
 
 // --- ROUTING ---
 function navigate(path, event) { 
@@ -112,7 +126,13 @@ function handleRoute() {
         '/docs/downloader/twitter': 'view-endpoint-twitter',
         '/docs/downloader/mediafire': 'view-endpoint-mediafire',
         '/docs/downloader/spotify': 'view-endpoint-spotify',
-        '/docs/downloader/threads': 'view-endpoint-threads'
+        '/docs/downloader/threads': 'view-endpoint-threads',
+        // Route Baru (Search)
+        '/docs/search/pinterest': 'view-endpoint-pinterest',
+        '/docs/search/lk21-search': 'view-endpoint-lk21-search',
+        '/docs/search/lk21-detail': 'view-endpoint-lk21-detail',
+        '/docs/search/lk21-trending': 'view-endpoint-lk21-trending',
+        '/docs/search/lk21-stream': 'view-endpoint-lk21-stream'
     };
 
     const targetId = routes[path] || 'view-home';
@@ -133,7 +153,8 @@ async function fetchApi(endpoint, paramValue, outputId, timeBadgeId, procMsg) {
 
     const startTime = performance.now(); 
     try {
-        const res = await fetch(`${endpoint}?${paramValue}`);
+        const url = paramValue ? `${endpoint}?${paramValue}` : endpoint;
+        const res = await fetch(url);
         const data = await res.json();
         const endTime = performance.now(); 
 
@@ -153,39 +174,32 @@ async function fetchApi(endpoint, paramValue, outputId, timeBadgeId, procMsg) {
 }
 
 // --- EXECUTE FUNCTIONS ---
-function executeOuoApi() { 
-    fetchApi('/api/bypass', `url=${encodeURIComponent(document.getElementById('param-url').value)}`, 'json-output-ouo', 'time-badge-ouo', 'Memproses bypass link...'); 
+function executeOuoApi() { fetchApi('/api/bypass', `url=${encodeURIComponent(document.getElementById('param-url').value)}`, 'json-output-ouo', 'time-badge-ouo', 'Memproses bypass link...'); }
+function executeClaudeApi() { fetchApi('/api/claude', `text=${encodeURIComponent(document.getElementById('param-text-claude').value)}`, 'json-output-claude', 'time-badge-claude', 'Memproses Claude AI...'); }
+function executeGeminiApi() { fetchApi('/api/gemini', `text=${encodeURIComponent(document.getElementById('param-text-gemini').value)}`, 'json-output-gemini', 'time-badge-gemini', 'Memproses Gemini AI...'); }
+function executeIgApi() { fetchApi('/api/ig', `url=${encodeURIComponent(document.getElementById('param-url-ig').value)}`, 'json-output-ig', 'time-badge-ig', 'Memproses downloader Instagram...'); }
+function executeYtmp3Api() { fetchApi('/api/ytmp3', `url=${encodeURIComponent(document.getElementById('param-url-ytmp3').value)}`, 'json-output-ytmp3', 'time-badge-ytmp3', 'Memproses downloader YTMP3...'); }
+function executeYtmp4Api() { fetchApi('/api/ytmp4', `url=${encodeURIComponent(document.getElementById('param-url-ytmp4').value)}`, 'json-output-ytmp4', 'time-badge-ytmp4', 'Memproses downloader YTMP4...'); }
+function executeTiktokApi() { fetchApi('/api/tiktok', `url=${encodeURIComponent(document.getElementById('param-url-tiktok').value)}`, 'json-output-tiktok', 'time-badge-tiktok', 'Memproses downloader TikTok...'); }
+function executeFbApi() { fetchApi('/api/fb', `url=${encodeURIComponent(document.getElementById('param-url-fb').value)}`, 'json-output-fb', 'time-badge-fb', 'Memproses downloader Facebook...'); }
+function executeTwitterApi() { fetchApi('/api/twitter', `url=${encodeURIComponent(document.getElementById('param-url-twitter').value)}`, 'json-output-twitter', 'time-badge-twitter', 'Memproses downloader Twitter...'); }
+function executeMediafireApi() { fetchApi('/api/mediafire', `url=${encodeURIComponent(document.getElementById('param-url-mediafire').value)}`, 'json-output-mediafire', 'time-badge-mediafire', 'Memproses downloader MediaFire...'); }
+function executeSpotifyApi() { fetchApi('/api/spotify', `url=${encodeURIComponent(document.getElementById('param-url-spotify').value)}`, 'json-output-spotify', 'time-badge-spotify', 'Memproses downloader Spotify...'); }
+function executeThreadsApi() { fetchApi('/api/threads', `url=${encodeURIComponent(document.getElementById('param-url-threads').value)}`, 'json-output-threads', 'time-badge-threads', 'Memproses downloader Threads...'); }
+
+// Execute Functions Fitur Baru (Search)
+function executePinterestApi() { 
+    fetchApi('/api/pinterest', `query=${encodeURIComponent(document.getElementById('param-query-pinterest').value)}`, 'json-output-pinterest', 'time-badge-pinterest', 'Memproses pencarian Pinterest...'); 
 }
-function executeClaudeApi() { 
-    fetchApi('/api/claude', `text=${encodeURIComponent(document.getElementById('param-text-claude').value)}`, 'json-output-claude', 'time-badge-claude', 'Memproses Claude AI...'); 
+function executeLk21SearchApi() { 
+    fetchApi('/api/lk21/search', `query=${encodeURIComponent(document.getElementById('param-query-lk21-search').value)}`, 'json-output-lk21-search', 'time-badge-lk21-search', 'Memproses pencarian film LK21...'); 
 }
-function executeGeminiApi() { 
-    fetchApi('/api/gemini', `text=${encodeURIComponent(document.getElementById('param-text-gemini').value)}`, 'json-output-gemini', 'time-badge-gemini', 'Memproses Gemini AI...'); 
+function executeLk21DetailApi() { 
+    fetchApi('/api/lk21/detail', `url=${encodeURIComponent(document.getElementById('param-url-lk21-detail').value)}`, 'json-output-lk21-detail', 'time-badge-lk21-detail', 'Memproses detail film LK21...'); 
 }
-function executeIgApi() { 
-    fetchApi('/api/ig', `url=${encodeURIComponent(document.getElementById('param-url-ig').value)}`, 'json-output-ig', 'time-badge-ig', 'Memproses downloader Instagram...'); 
+function executeLk21TrendingApi() { 
+    fetchApi('/api/lk21/trending', '', 'json-output-lk21-trending', 'time-badge-lk21-trending', 'Memproses film trending LK21...'); 
 }
-function executeYtmp3Api() { 
-    fetchApi('/api/ytmp3', `url=${encodeURIComponent(document.getElementById('param-url-ytmp3').value)}`, 'json-output-ytmp3', 'time-badge-ytmp3', 'Memproses downloader YTMP3...'); 
-}
-function executeYtmp4Api() { 
-    fetchApi('/api/ytmp4', `url=${encodeURIComponent(document.getElementById('param-url-ytmp4').value)}`, 'json-output-ytmp4', 'time-badge-ytmp4', 'Memproses downloader YTMP4...'); 
-}
-function executeTiktokApi() { 
-    fetchApi('/api/tiktok', `url=${encodeURIComponent(document.getElementById('param-url-tiktok').value)}`, 'json-output-tiktok', 'time-badge-tiktok', 'Memproses downloader TikTok...'); 
-}
-function executeFbApi() { 
-    fetchApi('/api/fb', `url=${encodeURIComponent(document.getElementById('param-url-fb').value)}`, 'json-output-fb', 'time-badge-fb', 'Memproses downloader Facebook...'); 
-}
-function executeTwitterApi() { 
-    fetchApi('/api/twitter', `url=${encodeURIComponent(document.getElementById('param-url-twitter').value)}`, 'json-output-twitter', 'time-badge-twitter', 'Memproses downloader Twitter...'); 
-}
-function executeMediafireApi() { 
-    fetchApi('/api/mediafire', `url=${encodeURIComponent(document.getElementById('param-url-mediafire').value)}`, 'json-output-mediafire', 'time-badge-mediafire', 'Memproses downloader MediaFire...'); 
-}
-function executeSpotifyApi() { 
-    fetchApi('/api/spotify', `url=${encodeURIComponent(document.getElementById('param-url-spotify').value)}`, 'json-output-spotify', 'time-badge-spotify', 'Memproses downloader Spotify...'); 
-}
-function executeThreadsApi() { 
-    fetchApi('/api/threads', `url=${encodeURIComponent(document.getElementById('param-url-threads').value)}`, 'json-output-threads', 'time-badge-threads', 'Memproses downloader Threads...'); 
+function executeLk21StreamApi() { 
+    fetchApi('/api/lk21/stream', `url=${encodeURIComponent(document.getElementById('param-url-lk21-stream').value)}`, 'json-output-lk21-stream', 'time-badge-lk21-stream', 'Memproses link stream LK21...'); 
 }
