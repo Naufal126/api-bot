@@ -1,23 +1,22 @@
 // --- SCRIPT JAM DIGITAL ---
 function updateClock() {
-    const clockEl = document.getElementById('clock-time');
-    if (!clockEl) return;
     const now = new Date();
     const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    clockEl.innerText = timeString + " WIB";
+    document.getElementById('clock-time').innerText = timeString + " WIB";
 }
 setInterval(updateClock, 1000);
+updateClock();
 
-// --- TOGGLE DROPDOWN MENU ---
+// --- SCRIPT TOGGLE DROPDOWN MENU ---
 function toggleMenu() {
     const menu = document.getElementById('dropdown-menu');
-    if (menu) menu.classList.toggle('hidden');
+    menu.classList.toggle('hidden');
 }
 
 document.addEventListener('click', function(event) {
     const menu = document.getElementById('dropdown-menu');
     const btn = document.getElementById('menu-btn');
-    if (menu && btn && !menu.contains(event.target) && !btn.contains(event.target)) {
+    if (!menu.contains(event.target) && !btn.contains(event.target)) {
         menu.classList.add('hidden');
     }
 });
@@ -26,8 +25,6 @@ document.addEventListener('click', function(event) {
 function toggleAccordion(id) {
     const content = document.getElementById(id);
     const icon = document.getElementById('icon-' + id);
-    if (!content || !icon) return;
-    
     if (content.classList.contains('hidden')) {
         content.classList.remove('hidden');
         icon.style.transform = 'rotate(90deg)';
@@ -74,12 +71,26 @@ function setupUrlDisplay(inputId, displayId, endpointPath) {
     update();
 }
 
+setupUrlDisplay('param-url', 'api-url-display', '/api/bypass?url=');
+setupUrlDisplay('param-text-claude', 'api-url-display-claude', '/api/claude?text=');
+setupUrlDisplay('param-text-gemini', 'api-url-display-gemini', '/api/gemini?text=');
+setupUrlDisplay('param-url-ig', 'api-url-display-ig', '/api/ig?url=');
+setupUrlDisplay('param-url-ytmp3', 'api-url-display-ytmp3', '/api/ytmp3?url=');
+setupUrlDisplay('param-url-ytmp4', 'api-url-display-ytmp4', '/api/ytmp4?url=');
+setupUrlDisplay('param-url-tiktok', 'api-url-display-tiktok', '/api/tiktok?url=');
+setupUrlDisplay('param-url-fb', 'api-url-display-fb', '/api/fb?url=');
+setupUrlDisplay('param-url-twitter', 'api-url-display-twitter', '/api/twitter?url=');
+setupUrlDisplay('param-url-mediafire', 'api-url-display-mediafire', '/api/mediafire?url=');
+setupUrlDisplay('param-url-spotify', 'api-url-display-spotify', '/api/spotify?url=');
+setupUrlDisplay('param-url-threads', 'api-url-display-threads', '/api/threads?url=');
+
 // --- ROUTING ---
 function navigate(path, event) { 
     if (event) event.preventDefault(); 
     window.history.pushState({}, '', path); 
     handleRoute(); 
 }
+window.addEventListener('popstate', handleRoute);
 
 function handleRoute() {
     const path = window.location.pathname.replace(/\/$/, '') || '/';
@@ -109,7 +120,7 @@ function handleRoute() {
     if (targetEl) targetEl.classList.remove('hidden');
 }
 
-// --- HELPER FETCH API ---
+// --- HELPER UNTUK EXECUTE API ---
 async function fetchApi(endpoint, paramValue, outputId, timeBadgeId, procMsg) {
     const output = document.getElementById(outputId);
     const timeBadge = document.getElementById(timeBadgeId);
@@ -152,23 +163,4 @@ function executeMediafireApi() { fetchApi('/api/mediafire', `url=${encodeURIComp
 function executeSpotifyApi() { fetchApi('/api/spotify', `url=${encodeURIComponent(document.getElementById('param-url-spotify').value)}`, 'json-output-spotify', 'time-badge-spotify', 'Fetching Spotify audio...'); }
 function executeThreadsApi() { fetchApi('/api/threads', `url=${encodeURIComponent(document.getElementById('param-url-threads').value)}`, 'json-output-threads', 'time-badge-threads', 'Fetching Threads media...'); }
 
-// --- INITIALIZATION ---
-window.addEventListener('popstate', handleRoute);
-
-document.addEventListener('DOMContentLoaded', () => {
-    updateClock();
-    handleRoute();
-
-    setupUrlDisplay('param-url', 'api-url-display', '/api/bypass?url=');
-    setupUrlDisplay('param-text-claude', 'api-url-display-claude', '/api/claude?text=');
-    setupUrlDisplay('param-text-gemini', 'api-url-display-gemini', '/api/gemini?text=');
-    setupUrlDisplay('param-url-ig', 'api-url-display-ig', '/api/ig?url=');
-    setupUrlDisplay('param-url-ytmp3', 'api-url-display-ytmp3', '/api/ytmp3?url=');
-    setupUrlDisplay('param-url-ytmp4', 'api-url-display-ytmp4', '/api/ytmp4?url=');
-    setupUrlDisplay('param-url-tiktok', 'api-url-display-tiktok', '/api/tiktok?url=');
-    setupUrlDisplay('param-url-fb', 'api-url-display-fb', '/api/fb?url=');
-    setupUrlDisplay('param-url-twitter', 'api-url-display-twitter', '/api/twitter?url=');
-    setupUrlDisplay('param-url-mediafire', 'api-url-display-mediafire', '/api/mediafire?url=');
-    setupUrlDisplay('param-url-spotify', 'api-url-display-spotify', '/api/spotify?url=');
-    setupUrlDisplay('param-url-threads', 'api-url-display-threads', '/api/threads?url=');
-});
+handleRoute();
