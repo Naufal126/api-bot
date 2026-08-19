@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://naufal-api-local.loca.lt/api/:path*"
+      "destination": "https://core.naufal.fun/api/:path*"
     }
   ]
 }
