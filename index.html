@@ -180,7 +180,7 @@
                     <button onclick="toggleAccordion('cat-search')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
                         <span class="text-[13px] font-black text-white tracking-wide">SEARCH</span>
                         <span class="flex items-center gap-3">
-                            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full font-bold">1</span>
+                            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full font-bold">5</span>
                             <i id="icon-cat-search" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
                         </span>
                     </button>
@@ -192,41 +192,28 @@
                             </div>
                             <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Category: LK21 -->
-                <div>
-                    <button onclick="toggleAccordion('cat-lk21')" class="w-full bg-zinc-900 border border-zinc-800/80 p-4 rounded-xl flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
-                        <span class="text-[13px] font-black text-white tracking-wide">LK21</span>
-                        <span class="flex items-center gap-3">
-                            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full font-bold">4</span>
-                            <i id="icon-cat-lk21" class="fa-solid fa-chevron-right text-zinc-600 text-[10px] transition-transform duration-300"></i>
-                        </span>
-                    </button>
-                    <div id="cat-lk21" class="hidden mt-2 space-y-2 px-2">
-                        <div onclick="navigate('/docs/lk21/search', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                        <div onclick="navigate('/docs/search/lk21-search', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
                             <div class="flex items-center gap-3">
                                 <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
                                 <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">LK21 Search</span>
                             </div>
                             <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
                         </div>
-                        <div onclick="navigate('/docs/lk21/detail', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                        <div onclick="navigate('/docs/search/lk21-detail', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
                             <div class="flex items-center gap-3">
                                 <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
                                 <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">LK21 Detail</span>
                             </div>
                             <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
                         </div>
-                        <div onclick="navigate('/docs/lk21/trending', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                        <div onclick="navigate('/docs/search/lk21-trending', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
                             <div class="flex items-center gap-3">
                                 <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
                                 <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">LK21 Trending</span>
                             </div>
                             <i class="fa-solid fa-chevron-right text-zinc-600 text-[10px] group-hover:translate-x-1 transition-transform"></i>
                         </div>
-                        <div onclick="navigate('/docs/lk21/stream', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
+                        <div onclick="navigate('/docs/search/lk21-stream', event)" class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-all group">
                             <div class="flex items-center gap-3">
                                 <span class="text-[10px] font-black bg-blue-500/10 text-blue-400 px-2 py-1 rounded-md border border-blue-500/20">GET</span>
                                 <span class="text-xs text-zinc-200 font-bold group-hover:text-white transition-colors">LK21 Stream</span>
@@ -1269,7 +1256,7 @@
                     </div>
                     <div>
                         <h2 class="text-2xl font-extrabold text-white tracking-tight">Pinterest Search</h2>
-                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Cari inspirasi gambar dan desain berkualitas tinggi dari Pinterest.</p>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Cari gambar dan inspirasi dari Pinterest berdasarkan kata kunci.</p>
                     </div>
                 </div>
 
@@ -1281,9 +1268,9 @@
                             <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
                             <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
                         </div>
-                        <p class="text-[11px] text-zinc-400">Kata kunci pencarian Pinterest</p>
+                        <p class="text-[11px] text-zinc-400">Kata kunci pencarian gambar</p>
                         <div>
-                            <input type="text" id="param-query-pinterest" value="aesthetic wallpaper" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+                            <input type="text" id="param-query-pinterest" value="aesthetic background" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
 
                             <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
                                 <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
@@ -1327,6 +1314,7 @@
     "status": true,
     "creator": "Naufal Apies",
     "result": [
+        "https://i.pinimg.com/originals/...",
         "https://i.pinimg.com/originals/..."
     ]
 }</pre>
@@ -1345,12 +1333,12 @@
             <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
                 <div class="space-y-3">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">LK21</span>
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">SEARCH</span>
                         <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
                     </div>
                     <div>
                         <h2 class="text-2xl font-extrabold text-white tracking-tight">LK21 Search</h2>
-                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Cari film atau TV series favorit dari database LK21.</p>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Cari film atau series favorit dari website LK21.</p>
                     </div>
                 </div>
 
@@ -1362,16 +1350,16 @@
                             <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
                             <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
                         </div>
-                        <p class="text-[11px] text-zinc-400">Kata kunci pencarian judul film (Contoh: batman)</p>
+                        <p class="text-[11px] text-zinc-400">Judul film atau series</p>
                         <div>
-                            <input type="text" id="param-q-lk21" value="batman" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+                            <input type="text" id="param-q-lk21search" value="avengers" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
 
                             <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
                                 <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
                                     <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
-                                    <span id="api-url-display-lk21-search" class="text-[10px] text-zinc-400 font-mono"></span>
+                                    <span id="api-url-display-lk21search" class="text-[10px] text-zinc-400 font-mono"></span>
                                 </div>
-                                <button onclick="copyApiUrl('api-url-display-lk21-search', 'copy-url-btn-lk21-search')" id="copy-url-btn-lk21-search" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                <button onclick="copyApiUrl('api-url-display-lk21search', 'copy-url-btn-lk21search')" id="copy-url-btn-lk21search" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
                                     <i class="fa-regular fa-copy text-[12px]"></i>
                                 </button>
                             </div>
@@ -1397,20 +1385,20 @@
                             </div>
 
                             <div class="flex items-center gap-4">
-                                <span id="time-badge-lk21-search" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
-                                <button onclick="copyResponse('json-output-lk21-search', 'copy-btn-lk21-search')" id="copy-btn-lk21-search" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                <span id="time-badge-lk21search" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-lk21search', 'copy-btn-lk21search')" id="copy-btn-lk21search" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
                                     <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
                                 </button>
                             </div>
                         </div>
                         <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
-                            <pre id="json-output-lk21-search" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+                            <pre id="json-output-lk21search" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
     "status": true,
     "creator": "Naufal Apies",
     "result": [
         {
-            "title": "The Batman (2022)",
-            "id": "the-batman-2022",
+            "id": "12345",
+            "title": "Avengers: Endgame",
             "type": "movie"
         }
     ]
@@ -1430,53 +1418,46 @@
             <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
                 <div class="space-y-3">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">LK21</span>
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">SEARCH</span>
                         <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
                     </div>
                     <div>
                         <h2 class="text-2xl font-extrabold text-white tracking-tight">LK21 Detail</h2>
-                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Dapatkan detail lengkap dari suatu film atau series di LK21.</p>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Dapatkan informasi detail seperti sinopsis dan metadata film dari LK21.</p>
                     </div>
                 </div>
 
                 <div class="space-y-3 pt-2 border-t border-zinc-800/60">
                     <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    
                     <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
-                        
-                        <!-- Param 1: ID -->
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-mono font-bold text-white">id</span>
                             <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
                             <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
                         </div>
-                        <p class="text-[11px] text-zinc-400">ID film yang didapatkan dari hasil search</p>
-                        <div>
-                            <input type="text" id="param-id-lk21" value="the-batman-2022" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
-                        </div>
+                        <p class="text-[11px] text-zinc-400">ID film atau series</p>
+                        <input type="text" id="param-id-lk21detail" value="12345" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+                    </div>
 
-                        <hr class="border-zinc-800/80 my-3">
-
-                        <!-- Param 2: TYPE -->
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3 mt-3">
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-mono font-bold text-white">type</span>
                             <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
                             <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
                         </div>
-                        <p class="text-[11px] text-zinc-400">Tipe konten (Misal: movie / series)</p>
-                        <div>
-                            <input type="text" id="param-type-lk21" value="movie" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+                        <p class="text-[11px] text-zinc-400">Tipe pencarian (movie / tv)</p>
+                        <input type="text" id="param-type-lk21detail" value="movie" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
                         
-                            <div class="mt-4 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
-                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
-                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
-                                    <span id="api-url-display-lk21-detail" class="text-[10px] text-zinc-400 font-mono"></span>
-                                </div>
-                                <button onclick="copyApiUrl('api-url-display-lk21-detail', 'copy-url-btn-lk21-detail')" id="copy-url-btn-lk21-detail" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
-                                    <i class="fa-regular fa-copy text-[12px]"></i>
-                                </button>
+                        <div class="mt-4 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                            <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                <span id="api-url-display-lk21detail" class="text-[10px] text-zinc-400 font-mono"></span>
                             </div>
+                            <button onclick="copyApiUrl('api-url-display-lk21detail', 'copy-url-btn-lk21detail')" id="copy-url-btn-lk21detail" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                <i class="fa-regular fa-copy text-[12px]"></i>
+                            </button>
                         </div>
-
                     </div>
                 </div>
 
@@ -1498,20 +1479,20 @@
                             </div>
 
                             <div class="flex items-center gap-4">
-                                <span id="time-badge-lk21-detail" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
-                                <button onclick="copyResponse('json-output-lk21-detail', 'copy-btn-lk21-detail')" id="copy-btn-lk21-detail" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                <span id="time-badge-lk21detail" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-lk21detail', 'copy-btn-lk21detail')" id="copy-btn-lk21detail" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
                                     <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
                                 </button>
                             </div>
                         </div>
                         <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
-                            <pre id="json-output-lk21-detail" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+                            <pre id="json-output-lk21detail" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
     "status": true,
     "creator": "Naufal Apies",
     "result": {
-        "title": "The Batman",
-        "rating": "7.9",
-        "synopsis": "Deskripsi film..."
+        "title": "Avengers: Endgame",
+        "synopsis": "...",
+        "rating": "8.4"
     }
 }</pre>
                         </div>
@@ -1529,26 +1510,26 @@
             <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
                 <div class="space-y-3">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">LK21</span>
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">SEARCH</span>
                         <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
                     </div>
                     <div>
                         <h2 class="text-2xl font-extrabold text-white tracking-tight">LK21 Trending</h2>
-                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Dapatkan daftar film atau series yang sedang trending atau populer di LK21.</p>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Dapatkan daftar film atau series yang sedang trending dari LK21.</p>
                     </div>
                 </div>
 
                 <div class="space-y-3 pt-2 border-t border-zinc-800/60">
                     <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
-                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
-                        <p class="text-xs text-zinc-400 mb-2 italic">Endpoint ini tidak memerlukan parameter khusus.</p>
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3 text-center">
+                        <p class="text-xs text-zinc-500 italic">Endpoint ini tidak memerlukan parameter.</p>
                         
-                        <div class="mt-2 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                        <div class="mt-4 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
                             <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
                                 <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
-                                <span id="api-url-display-lk21-trending" class="text-[10px] text-zinc-400 font-mono"></span>
+                                <span id="api-url-display-lk21trending" class="text-[10px] text-zinc-400 font-mono"></span>
                             </div>
-                            <button onclick="copyApiUrl('api-url-display-lk21-trending', 'copy-url-btn-lk21-trending')" id="copy-url-btn-lk21-trending" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                            <button onclick="copyApiUrl('api-url-display-lk21trending', 'copy-url-btn-lk21trending')" id="copy-url-btn-lk21trending" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
                                 <i class="fa-regular fa-copy text-[12px]"></i>
                             </button>
                         </div>
@@ -1573,20 +1554,20 @@
                             </div>
 
                             <div class="flex items-center gap-4">
-                                <span id="time-badge-lk21-trending" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
-                                <button onclick="copyResponse('json-output-lk21-trending', 'copy-btn-lk21-trending')" id="copy-btn-lk21-trending" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                <span id="time-badge-lk21trending" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-lk21trending', 'copy-btn-lk21trending')" id="copy-btn-lk21trending" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
                                     <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
                                 </button>
                             </div>
                         </div>
                         <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
-                            <pre id="json-output-lk21-trending" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+                            <pre id="json-output-lk21trending" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
     "status": true,
     "creator": "Naufal Apies",
     "result": [
         {
-            "title": "Movie Trending 1",
-            "id": "movie-trending-1"
+            "title": "Trending Movie 1",
+            "id": "12345"
         }
     ]
 }</pre>
@@ -1605,53 +1586,46 @@
             <div class="bg-zinc-900/50 border border-zinc-800/90 rounded-2xl p-5 md:p-6 space-y-6">
                 <div class="space-y-3">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">LK21</span>
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">SEARCH</span>
                         <span class="bg-zinc-800 text-zinc-400 border border-zinc-700 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">FREE</span>
                     </div>
                     <div>
                         <h2 class="text-2xl font-extrabold text-white tracking-tight">LK21 Stream</h2>
-                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Ekstrak direct link streaming dari LK21 berdasarkan server tertentu.</p>
+                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Dapatkan URL untuk streaming dari LK21 berdasarkan ID dan pilihan server.</p>
                     </div>
                 </div>
 
                 <div class="space-y-3 pt-2 border-t border-zinc-800/60">
                     <h3 class="text-[11px] font-black text-zinc-400 uppercase tracking-wider">Parameters</h3>
+                    
                     <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3">
-                        
-                        <!-- Param 1: ID -->
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-mono font-bold text-white">id</span>
                             <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
                             <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
                         </div>
-                        <p class="text-[11px] text-zinc-400">ID unik film/series LK21</p>
-                        <div>
-                            <input type="text" id="param-id-stream" value="the-batman-2022" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
-                        </div>
+                        <p class="text-[11px] text-zinc-400">ID film atau series</p>
+                        <input type="text" id="param-id-lk21stream" value="12345" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+                    </div>
 
-                        <hr class="border-zinc-800/80 my-3">
-
-                        <!-- Param 2: SERVER -->
+                    <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl space-y-3 mt-3">
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-mono font-bold text-white">server</span>
                             <span class="bg-zinc-800 text-zinc-400 text-[9px] font-mono px-2 py-0.5 rounded">STRING</span>
                             <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[9px] font-bold px-2 py-0.5 rounded">REQUIRED</span>
                         </div>
-                        <p class="text-[11px] text-zinc-400">Nama server (Misal: vip, fembed, dll)</p>
-                        <div>
-                            <input type="text" id="param-server-stream" value="vip" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
+                        <p class="text-[11px] text-zinc-400">Pilihan server (contoh: vip)</p>
+                        <input type="text" id="param-server-lk21stream" value="vip" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs font-mono text-zinc-200 outline-none focus:border-blue-500 transition-colors">
                         
-                            <div class="mt-4 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
-                                <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
-                                    <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
-                                    <span id="api-url-display-lk21-stream" class="text-[10px] text-zinc-400 font-mono"></span>
-                                </div>
-                                <button onclick="copyApiUrl('api-url-display-lk21-stream', 'copy-url-btn-lk21-stream')" id="copy-url-btn-lk21-stream" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
-                                    <i class="fa-regular fa-copy text-[12px]"></i>
-                                </button>
+                        <div class="mt-4 flex items-center justify-between bg-zinc-950/50 p-2.5 rounded-lg border border-zinc-800/50 group">
+                            <div class="flex items-center gap-2 overflow-x-auto url-scroll whitespace-nowrap pb-1">
+                                <i class="fa-solid fa-link text-[10px] text-zinc-500"></i>
+                                <span id="api-url-display-lk21stream" class="text-[10px] text-zinc-400 font-mono"></span>
                             </div>
+                            <button onclick="copyApiUrl('api-url-display-lk21stream', 'copy-url-btn-lk21stream')" id="copy-url-btn-lk21stream" class="ml-2 pl-2 border-l border-zinc-800 text-zinc-500 hover:text-white transition-colors flex-shrink-0" title="Copy URL">
+                                <i class="fa-regular fa-copy text-[12px]"></i>
+                            </button>
                         </div>
-
                     </div>
                 </div>
 
@@ -1673,18 +1647,19 @@
                             </div>
 
                             <div class="flex items-center gap-4">
-                                <span id="time-badge-lk21-stream" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
-                                <button onclick="copyResponse('json-output-lk21-stream', 'copy-btn-lk21-stream')" id="copy-btn-lk21-stream" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
+                                <span id="time-badge-lk21stream" class="hidden bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-mono px-2 py-0.5 rounded">0ms</span>
+                                <button onclick="copyResponse('json-output-lk21stream', 'copy-btn-lk21stream')" id="copy-btn-lk21stream" class="text-zinc-400 hover:text-white text-xs transition-colors flex items-center gap-1.5 font-sans font-medium border-l border-zinc-700 pl-4">
                                     <i class="fa-regular fa-copy text-xs"></i> <span>Copy</span>
                                 </button>
                             </div>
                         </div>
                         <div class="bg-[#0d0d0d] p-4 overflow-x-auto max-h-[350px]">
-                            <pre id="json-output-lk21-stream" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
+                            <pre id="json-output-lk21stream" class="text-[12px] font-mono text-emerald-400 leading-relaxed">{
     "status": true,
     "creator": "Naufal Apies",
     "result": {
-        "url": "https://stream..."
+        "server": "vip",
+        "url": "https://..."
     }
 }</pre>
                         </div>
