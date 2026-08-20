@@ -64,7 +64,7 @@ function setupUrlDisplay(inputId, displayId, endpointPath) {
     const input = document.getElementById(inputId);
     const display = document.getElementById(displayId);
     if (!display) return;
-    
+
     if (!input) {
         display.innerText = `${getBaseUrl()}${endpointPath}`;
         return;
@@ -74,6 +74,23 @@ function setupUrlDisplay(inputId, displayId, endpointPath) {
         display.innerText = `${getBaseUrl()}${endpointPath}${encodeURIComponent(input.value)}`;
     };
     input.addEventListener('input', update);
+    update();
+}
+
+// Helper khusus untuk Endpoint dengan Multi-Parameter
+function setupMultiUrlDisplay(inputIds, displayId, endpointPath, paramKeys) {
+    const display = document.getElementById(displayId);
+    if (!display) return;
+    
+    const inputs = inputIds.map(id => document.getElementById(id));
+    if (inputs.some(input => !input)) return;
+
+    const update = () => {
+        const queryStr = inputs.map((input, index) => `${paramKeys[index]}=${encodeURIComponent(input.value)}`).join('&');
+        display.innerText = `${getBaseUrl()}${endpointPath}?${queryStr}`;
+    };
+    
+    inputs.forEach(input => input.addEventListener('input', update));
     update();
 }
 
@@ -91,12 +108,15 @@ setupUrlDisplay('param-url-mediafire', 'api-url-display-mediafire', '/api/mediaf
 setupUrlDisplay('param-url-spotify', 'api-url-display-spotify', '/api/spotify?url=');
 setupUrlDisplay('param-url-threads', 'api-url-display-threads', '/api/threads?url=');
 
-// Setup Display URL Fitur Baru (Search)
-setupUrlDisplay('param-query-pinterest', 'api-url-display-pinterest', '/api/pinterest?query=');
-setupUrlDisplay('param-query-lk21-search', 'api-url-display-lk21-search', '/api/lk21/search?query=');
-setupUrlDisplay('param-url-lk21-detail', 'api-url-display-lk21-detail', '/api/lk21/detail?url=');
-setupUrlDisplay(null, 'api-url-display-lk21-trending', '/api/lk21/trending');
-setupUrlDisplay('param-url-lk21-stream', 'api-url-display-lk21-stream', '/api/lk21/stream?url=');
+// Setup Display URL Fitur Baru (Diperbaiki)
+setupUrlDisplay('param-q-pinterest', 'api-url-display-pinterest', '/api/pinterest?q=');
+setupUrlDisplay('param-q-lk21search', 'api-url-display-lk21search', '/api/lk21/search?q=');
+setupUrlDisplay(null, 'api-url-display-lk21trending', '/api/lk21/trending');
+
+// Setup untuk LK21 dengan lebih dari 1 parameter
+setupMultiUrlDisplay(['param-id-lk21detail', 'param-type-lk21detail'], 'api-url-display-lk21detail', '/api/lk21/detail', ['id', 'type']);
+setupMultiUrlDisplay(['param-id-lk21stream', 'param-server-lk21stream'], 'api-url-display-lk21stream', '/api/lk21/stream', ['id', 'server']);
+
 
 // --- ROUTING ---
 function navigate(path, event) { 
@@ -127,12 +147,12 @@ function handleRoute() {
         '/docs/downloader/mediafire': 'view-endpoint-mediafire',
         '/docs/downloader/spotify': 'view-endpoint-spotify',
         '/docs/downloader/threads': 'view-endpoint-threads',
-        // Route Baru (Search)
+        // Route Baru (Sesuai HTML)
         '/docs/search/pinterest': 'view-endpoint-pinterest',
-        '/docs/search/lk21-search': 'view-endpoint-lk21-search',
-        '/docs/search/lk21-detail': 'view-endpoint-lk21-detail',
-        '/docs/search/lk21-trending': 'view-endpoint-lk21-trending',
-        '/docs/search/lk21-stream': 'view-endpoint-lk21-stream'
+        '/docs/lk21/search': 'view-endpoint-lk21-search',
+        '/docs/lk21/detail': 'view-endpoint-lk21-detail',
+        '/docs/lk21/trending': 'view-endpoint-lk21-trending',
+        '/docs/lk21/stream': 'view-endpoint-lk21-stream'
     };
 
     const targetId = routes[path] || 'view-home';
@@ -147,9 +167,11 @@ async function fetchApi(endpoint, paramValue, outputId, timeBadgeId, procMsg) {
     const output = document.getElementById(outputId);
     const timeBadge = document.getElementById(timeBadgeId);
 
-    timeBadge.classList.add('hidden'); 
-    output.className = "text-[12px] font-mono text-yellow-400 leading-relaxed";
-    output.innerText = JSON.stringify({ status: "processing", message: procMsg }, null, 4);
+    if (timeBadge) timeBadge.classList.add('hidden'); 
+    if (output) {
+        output.className = "text-[12px] font-mono text-yellow-400 leading-relaxed";
+        output.innerText = JSON.stringify({ status: "processing", message: procMsg }, null, 4);
+    }
 
     const startTime = performance.now(); 
     try {
@@ -158,18 +180,24 @@ async function fetchApi(endpoint, paramValue, outputId, timeBadgeId, procMsg) {
         const data = await res.json();
         const endTime = performance.now(); 
 
-        timeBadge.innerText = `${(endTime - startTime).toFixed(0)}ms`;
-        timeBadge.classList.remove('hidden');
-
-        if (data.status === false || res.status !== 200) {
-            output.className = "text-[12px] font-mono text-red-400 leading-relaxed";
-        } else {
-            output.className = "text-[12px] font-mono text-emerald-400 leading-relaxed";
+        if (timeBadge) {
+            timeBadge.innerText = `${(endTime - startTime).toFixed(0)}ms`;
+            timeBadge.classList.remove('hidden');
         }
-        output.innerText = JSON.stringify(data, null, 4);
+
+        if (output) {
+            if (data.status === false || res.status !== 200) {
+                output.className = "text-[12px] font-mono text-red-400 leading-relaxed";
+            } else {
+                output.className = "text-[12px] font-mono text-emerald-400 leading-relaxed";
+            }
+            output.innerText = JSON.stringify(data, null, 4);
+        }
     } catch (e) { 
-        output.className = "text-[12px] font-mono text-red-400 leading-relaxed";
-        output.innerText = JSON.stringify({ status: false, message: "Server error" }, null, 4);
+        if (output) {
+            output.className = "text-[12px] font-mono text-red-400 leading-relaxed";
+            output.innerText = JSON.stringify({ status: false, message: "Server error / Network error" }, null, 4);
+        }
     }
 }
 
@@ -187,19 +215,25 @@ function executeMediafireApi() { fetchApi('/api/mediafire', `url=${encodeURIComp
 function executeSpotifyApi() { fetchApi('/api/spotify', `url=${encodeURIComponent(document.getElementById('param-url-spotify').value)}`, 'json-output-spotify', 'time-badge-spotify', 'Memproses downloader Spotify...'); }
 function executeThreadsApi() { fetchApi('/api/threads', `url=${encodeURIComponent(document.getElementById('param-url-threads').value)}`, 'json-output-threads', 'time-badge-threads', 'Memproses downloader Threads...'); }
 
-// Execute Functions Fitur Baru (Search)
+// Execute Functions Fitur Baru
 function executePinterestApi() { 
-    fetchApi('/api/pinterest', `query=${encodeURIComponent(document.getElementById('param-query-pinterest').value)}`, 'json-output-pinterest', 'time-badge-pinterest', 'Memproses pencarian Pinterest...'); 
+    const q = encodeURIComponent(document.getElementById('param-q-pinterest').value);
+    fetchApi('/api/pinterest', `q=${q}`, 'json-output-pinterest', 'time-badge-pinterest', 'Memproses pencarian Pinterest...'); 
 }
 function executeLk21SearchApi() { 
-    fetchApi('/api/lk21/search', `query=${encodeURIComponent(document.getElementById('param-query-lk21-search').value)}`, 'json-output-lk21-search', 'time-badge-lk21-search', 'Memproses pencarian film LK21...'); 
+    const q = encodeURIComponent(document.getElementById('param-q-lk21search').value);
+    fetchApi('/api/lk21/search', `q=${q}`, 'json-output-lk21search', 'time-badge-lk21search', 'Memproses pencarian film LK21...'); 
 }
 function executeLk21DetailApi() { 
-    fetchApi('/api/lk21/detail', `url=${encodeURIComponent(document.getElementById('param-url-lk21-detail').value)}`, 'json-output-lk21-detail', 'time-badge-lk21-detail', 'Memproses detail film LK21...'); 
+    const id = encodeURIComponent(document.getElementById('param-id-lk21detail').value);
+    const type = encodeURIComponent(document.getElementById('param-type-lk21detail').value);
+    fetchApi('/api/lk21/detail', `id=${id}&type=${type}`, 'json-output-lk21detail', 'time-badge-lk21detail', 'Memproses detail film LK21...'); 
 }
 function executeLk21TrendingApi() { 
-    fetchApi('/api/lk21/trending', '', 'json-output-lk21-trending', 'time-badge-lk21-trending', 'Memproses film trending LK21...'); 
+    fetchApi('/api/lk21/trending', null, 'json-output-lk21trending', 'time-badge-lk21trending', 'Memproses film trending LK21...'); 
 }
 function executeLk21StreamApi() { 
-    fetchApi('/api/lk21/stream', `url=${encodeURIComponent(document.getElementById('param-url-lk21-stream').value)}`, 'json-output-lk21-stream', 'time-badge-lk21-stream', 'Memproses link stream LK21...'); 
+    const id = encodeURIComponent(document.getElementById('param-id-lk21stream').value);
+    const server = encodeURIComponent(document.getElementById('param-server-lk21stream').value);
+    fetchApi('/api/lk21/stream', `id=${id}&server=${server}`, 'json-output-lk21stream', 'time-badge-lk21stream', 'Memproses link stream LK21...'); 
 }
