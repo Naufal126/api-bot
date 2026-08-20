@@ -58,7 +58,7 @@ function copyApiUrl(elementId, btnId) {
 }
 
 // --- DYNAMIC API URL DISPLAY ---
-const getBaseUrl = () => 'https://api.naufal.fun';
+const getBaseUrl = () => 'http://localhost:3000'; // Ubah ini jika sudah dihosting
 
 function setupUrlDisplay(inputId, displayId, endpointPath) {
     const input = document.getElementById(inputId);
@@ -81,7 +81,7 @@ function setupUrlDisplay(inputId, displayId, endpointPath) {
 function setupMultiUrlDisplay(inputIds, displayId, endpointPath, paramKeys) {
     const display = document.getElementById(displayId);
     if (!display) return;
-    
+
     const inputs = inputIds.map(id => document.getElementById(id));
     if (inputs.some(input => !input)) return;
 
@@ -89,8 +89,25 @@ function setupMultiUrlDisplay(inputIds, displayId, endpointPath, paramKeys) {
         const queryStr = inputs.map((input, index) => `${paramKeys[index]}=${encodeURIComponent(input.value)}`).join('&');
         display.innerText = `${getBaseUrl()}${endpointPath}?${queryStr}`;
     };
-    
+
     inputs.forEach(input => input.addEventListener('input', update));
+    update();
+}
+
+// Helper khusus untuk Endpoint dengan Path + Query Parameter (Contoh: /category/:name?page=)
+function setupPathUrlDisplay(nameInputId, pageInputId, displayId, basePath) {
+    const nameInput = document.getElementById(nameInputId);
+    const pageInput = document.getElementById(pageInputId);
+    const display = document.getElementById(displayId);
+    if (!display || !nameInput || !pageInput) return;
+
+    const update = () => {
+        const name = encodeURIComponent(nameInput.value);
+        const page = encodeURIComponent(pageInput.value);
+        display.innerText = `${getBaseUrl()}${basePath}${name}?page=${page}`;
+    };
+    nameInput.addEventListener('input', update);
+    pageInput.addEventListener('input', update);
     update();
 }
 
@@ -108,14 +125,19 @@ setupUrlDisplay('param-url-mediafire', 'api-url-display-mediafire', '/api/mediaf
 setupUrlDisplay('param-url-spotify', 'api-url-display-spotify', '/api/spotify?url=');
 setupUrlDisplay('param-url-threads', 'api-url-display-threads', '/api/threads?url=');
 
-// Setup Display URL Fitur Baru (Diperbaiki)
+// Setup Display URL Search & LK21
 setupUrlDisplay('param-q-pinterest', 'api-url-display-pinterest', '/api/pinterest?q=');
 setupUrlDisplay('param-q-lk21search', 'api-url-display-lk21search', '/api/lk21/search?q=');
 setupUrlDisplay(null, 'api-url-display-lk21trending', '/api/lk21/trending');
-
-// Setup untuk LK21 dengan lebih dari 1 parameter
 setupMultiUrlDisplay(['param-id-lk21detail', 'param-type-lk21detail'], 'api-url-display-lk21detail', '/api/lk21/detail', ['id', 'type']);
 setupMultiUrlDisplay(['param-id-lk21stream', 'param-server-lk21stream'], 'api-url-display-lk21stream', '/api/lk21/stream', ['id', 'server']);
+
+// Setup Display URL Nekopoi
+setupUrlDisplay('param-page-nekopoi-latest', 'api-url-display-nekopoi-latest', '/api/nekopoi/latest?page=');
+setupMultiUrlDisplay(['param-q-nekopoi-search', 'param-page-nekopoi-search'], 'api-url-display-nekopoi-search', '/api/nekopoi/search', ['q', 'page']);
+setupPathUrlDisplay('param-name-nekopoi-category', 'param-page-nekopoi-category', 'api-url-display-nekopoi-category', '/api/nekopoi/category/');
+setupPathUrlDisplay('param-name-nekopoi-genre', 'param-page-nekopoi-genre', 'api-url-display-nekopoi-genre', '/api/nekopoi/genre/');
+setupUrlDisplay('param-url-nekopoi-detail', 'api-url-display-nekopoi-detail', '/api/nekopoi/detail?url=');
 
 
 // --- ROUTING ---
@@ -147,12 +169,17 @@ function handleRoute() {
         '/docs/downloader/mediafire': 'view-endpoint-mediafire',
         '/docs/downloader/spotify': 'view-endpoint-spotify',
         '/docs/downloader/threads': 'view-endpoint-threads',
-        // Route Baru (Sesuai HTML)
         '/docs/search/pinterest': 'view-endpoint-pinterest',
         '/docs/lk21/search': 'view-endpoint-lk21-search',
         '/docs/lk21/detail': 'view-endpoint-lk21-detail',
         '/docs/lk21/trending': 'view-endpoint-lk21-trending',
-        '/docs/lk21/stream': 'view-endpoint-lk21-stream'
+        '/docs/lk21/stream': 'view-endpoint-lk21-stream',
+        // Route Nekopoi
+        '/docs/nekopoi/latest': 'view-endpoint-nekopoi-latest',
+        '/docs/nekopoi/search': 'view-endpoint-nekopoi-search',
+        '/docs/nekopoi/category': 'view-endpoint-nekopoi-category',
+        '/docs/nekopoi/genre': 'view-endpoint-nekopoi-genre',
+        '/docs/nekopoi/detail': 'view-endpoint-nekopoi-detail'
     };
 
     const targetId = routes[path] || 'view-home';
@@ -215,7 +242,6 @@ function executeMediafireApi() { fetchApi('/api/mediafire', `url=${encodeURIComp
 function executeSpotifyApi() { fetchApi('/api/spotify', `url=${encodeURIComponent(document.getElementById('param-url-spotify').value)}`, 'json-output-spotify', 'time-badge-spotify', 'Memproses downloader Spotify...'); }
 function executeThreadsApi() { fetchApi('/api/threads', `url=${encodeURIComponent(document.getElementById('param-url-threads').value)}`, 'json-output-threads', 'time-badge-threads', 'Memproses downloader Threads...'); }
 
-// Execute Functions Fitur Baru
 function executePinterestApi() { 
     const q = encodeURIComponent(document.getElementById('param-q-pinterest').value);
     fetchApi('/api/pinterest', `q=${q}`, 'json-output-pinterest', 'time-badge-pinterest', 'Memproses pencarian Pinterest...'); 
@@ -236,4 +262,30 @@ function executeLk21StreamApi() {
     const id = encodeURIComponent(document.getElementById('param-id-lk21stream').value);
     const server = encodeURIComponent(document.getElementById('param-server-lk21stream').value);
     fetchApi('/api/lk21/stream', `id=${id}&server=${server}`, 'json-output-lk21stream', 'time-badge-lk21stream', 'Memproses link stream LK21...'); 
+}
+
+// Execute Functions Nekopoi
+function executeNekopoiLatestApi() { 
+    const page = encodeURIComponent(document.getElementById('param-page-nekopoi-latest').value);
+    fetchApi('/api/nekopoi/latest', `page=${page}`, 'json-output-nekopoi-latest', 'time-badge-nekopoi-latest', 'Memproses Rilis Terbaru Nekopoi...'); 
+}
+function executeNekopoiSearchApi() { 
+    const q = encodeURIComponent(document.getElementById('param-q-nekopoi-search').value);
+    const page = encodeURIComponent(document.getElementById('param-page-nekopoi-search').value);
+    fetchApi('/api/nekopoi/search', `q=${q}&page=${page}`, 'json-output-nekopoi-search', 'time-badge-nekopoi-search', 'Memproses Pencarian Nekopoi...'); 
+}
+function executeNekopoiCategoryApi() { 
+    const name = encodeURIComponent(document.getElementById('param-name-nekopoi-category').value);
+    const page = encodeURIComponent(document.getElementById('param-page-nekopoi-category').value);
+    // Karena butuh path parameter, kita oper null untuk paramValue fetchApi agar tidak double tanda tanya (?)
+    fetchApi(`/api/nekopoi/category/${name}?page=${page}`, null, 'json-output-nekopoi-category', 'time-badge-nekopoi-category', 'Memproses Kategori Nekopoi...'); 
+}
+function executeNekopoiGenreApi() { 
+    const name = encodeURIComponent(document.getElementById('param-name-nekopoi-genre').value);
+    const page = encodeURIComponent(document.getElementById('param-page-nekopoi-genre').value);
+    fetchApi(`/api/nekopoi/genre/${name}?page=${page}`, null, 'json-output-nekopoi-genre', 'time-badge-nekopoi-genre', 'Memproses Genre Nekopoi...'); 
+}
+function executeNekopoiDetailApi() { 
+    const url = encodeURIComponent(document.getElementById('param-url-nekopoi-detail').value);
+    fetchApi('/api/nekopoi/detail', `url=${url}`, 'json-output-nekopoi-detail', 'time-badge-nekopoi-detail', 'Memproses Detail Nekopoi...'); 
 }
